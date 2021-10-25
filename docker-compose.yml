@@ -1,9 +1,13 @@
 version: "3"
 services:
-  postgres:
-    image: "postgres:latest"
+  db:
+    image: "postgres"
     environment:
-      - POSTGRES_PASSWORD=DeV45Roast
+      - POSTGRES_USER=devRoasted
+      - POSTGRES_PASSWORD=roastPass
+      - POSTGRES_DB=roastedcoffe
+    ports:
+      - "5432:5432"
   nginx:
     depends_on:
       - api
@@ -24,7 +28,7 @@ services:
     environment:
       - PGUSER=devroasted45
       - PGHOST=postgres
-      - PGDATABASE=roasted_coffe_45
+      - PGDATABASE=roastedcoffe
       - PGPASSWORD=DeV45Roast
       - PGPORT=5432
   client:
