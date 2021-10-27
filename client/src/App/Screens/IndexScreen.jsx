@@ -17,6 +17,9 @@ const CallActionLeft = styled.section`
    flex-wrap: wrap;
    justify-content: left;
    width: 25%;
+   @media (max-width: 960px) {
+    width: 100%;
+  }
 `;
 const Heading1 = styled.h1`
    margin-bottom: 32px;
@@ -41,12 +44,19 @@ const FrontImageRight = styled.section`
    display: flex;
    flex-wrap: wrap;
    width: 50%;
+   @media (max-width: 960px) {
+    width: 100%;
+    margin-top: 50px;
+  }
 `;
 const ImageSize = styled.article`
    width: 100%;
 `;
 const ImageFront = styled.img`
    width: 90%;
+   @media (max-width: 960px) {
+    width: 100%;
+  }
 `;
 
 const IndexScreen = () => {
