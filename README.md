@@ -6,3 +6,5 @@
 docker-compose up --build
 ```
 
+To see the web app
+http://localhost:3050
