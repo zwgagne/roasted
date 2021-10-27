@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import FrontImg from "../../Assets/Images/Img/FrontImage.jpg"
 
-
 const MainIndex = styled.main`
    display: flex;
    flex-wrap: wrap;
