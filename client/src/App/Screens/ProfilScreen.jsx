@@ -10,7 +10,18 @@ const MainProfil = styled.main`
     padding: 26px;
   }
 `;
-
+const SectionRegister = styled.section`
+   display: flex;
+   justify-content: left;
+   flex-wrap: wrap;
+   width: 40%;
+   @media (max-width: 960px) {
+    width: 100%;
+  }
+`;
+const Heading3 = styled.h3`
+   width: 100%;
+`
 const BGAvatar = styled.div`
    background-color: #F7F7F7;
    border: solid 1px #000000;
@@ -41,6 +52,7 @@ const InputProfil = styled.input`
    margin-bottom: 24px;
    font-size: 16px;
    color: #8B8B85;
+   padding-left: 10px;
    &:active, :hover, :focus{
        border: none;
        border-bottom: solid 1px #EC734D;
@@ -49,6 +61,9 @@ const InputProfil = styled.input`
 const ContainerEditBtnProfil = styled.div`
    margin-top: 176px;
    text-align: center;
+   @media (max-width: 960px) {
+    margin-top: 106px;
+  }
 `
 const BtnEditInfoProfil = styled.button`
    background-color: #D0C4A5;
@@ -58,28 +73,30 @@ const BtnEditInfoProfil = styled.button`
    border: none;
    padding: 15px 60px;
    border-radius: 40px;
-`
+`;
 
 const ProfilScreen = () => {
     return (
         <>
             <NavHeader />
             <MainProfil>
-                <section>
-                    <h3>Profil</h3>
+                <SectionRegister>
+                    <Heading3>Profil</Heading3>
                     <BGAvatar>
-                        <ImgAvatarSize src={DefaultAvatar} />
+                        <ImgAvatarSize src={DefaultAvatar} alt="Avatar profil"/>
                     </BGAvatar>
                     <FormProfil>
                         <LabelInputProfil htmlFor="profilFieldUserName">Nom d'utilisateur</LabelInputProfil>
                         <InputProfil id="profilFieldUserName" name="username" type="text" />
                         <LabelInputProfil htmlFor="profilFieldEmail">Adresse courriel</LabelInputProfil>
                         <InputProfil id="profilFieldEmail" name="email" type="email" />
+                        <LabelInputProfil htmlFor="RegisterFieldPassword">Mot de passe</LabelInputProfil>
+                        <InputProfil id="RegisterFieldPassword" name="password" type="password" required />
                         <ContainerEditBtnProfil>
                             <BtnEditInfoProfil type="submit">Modifier</BtnEditInfoProfil>
                         </ContainerEditBtnProfil>
                     </FormProfil>
-                </section>
+                </SectionRegister>
             </MainProfil>
         </>
     )
