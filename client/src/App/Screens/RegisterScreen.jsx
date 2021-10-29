@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -71,26 +71,76 @@ const LinkToLogin = styled(Link)`
    font-weight: bold;
    color: #000000;
 `;
+const SpanMatchPassword = styled.span`
+   font-style: 18px;
+   font-family: 'Roboto', sans-serif;
+   font-weight: bold;
+`;
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ setAuth }) => {
+
+    const [inputs, setInputs] = useState({
+        email: "",
+        name: "",
+        password: ""
+      })
+      
+      const {email, name, password} = inputs;
+    
+      const onChange = (e) => {
+        setInputs({...inputs, [e.target.name] : e.target.value });
+      };
+    
+      const body = {email, name, password};
+    
+      const onSubmitForm = async (e) => {
+        e.preventDefault();
+    
+        try {
+          const response = await fetch("http://localhost:5000/auth/register", {
+            method: "POST", 
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify(body)    
+          });
+
+          const parseRes = await response.json();
+          localStorage.setItem("token", parseRes.token);
+          setAuth(true);
+
+        } catch (err) {
+          console.error(err.message)
+        }
+      }
+      
+      function check_pass() {
+            if (document.getElementById('RegisterFieldPassword').value == document.getElementById('RegisterFieldConfirmPassword').value) {
+                document.getElementById('MatchConfirmationMessage').innerHTML = ' ok!';
+                document.getElementById('MatchConfirmationMessage').style.color= 'green';
+            } else {
+                document.getElementById('MatchConfirmationMessage').innerHTML = ' !!!';
+                document.getElementById('MatchConfirmationMessage').style.color= 'red';
+            }
+        }
+
     return (
         <>
             <NavHeader />
             <MainRegister>
                 <SectionRegister>
                     <h3>Joignez-vous au Club!</h3>
-                    <FormRegister>
+                    <FormRegister onSubmit={onSubmitForm}>
                         <LabelInputRegister htmlFor="RegisterFieldUserName">Nom d'utilisateur</LabelInputRegister>
-                        <InputRegister id="RegisterFieldUserName" name="username" type="text" required />
+                        <InputRegister id="RegisterFieldUserName" name="name" type="text" value={name} onChange={e => onChange(e)} required />
 
                         <LabelInputRegister htmlFor="RegisterFieldEmail">Adresse courriel</LabelInputRegister>
-                        <InputRegister id="RegisterFieldEmail" name="email" type="email" required />
+                        <InputRegister id="RegisterFieldEmail" name="email" type="email" value={email} onChange={e => onChange(e)} required />
 
                         <LabelInputRegister id="labelPw" htmlFor="RegisterFieldPassword">Mot de passe</LabelInputRegister>
-                        <InputRegister id="RegisterFieldPassword" name="password" type="password" required />
+                        <InputRegister id="RegisterFieldPassword" name="password" type="password" value={password} onChange={e => onChange(e)} required />
 
                         <LabelInputRegister htmlFor="RegisterFieldConfirmPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">Confirmer mot de passe</LabelInputRegister>
-                        <InputRegister id="RegisterFieldConfirmPassword" type="password" required />
+                        <SpanMatchPassword id="MatchConfirmationMessage"></SpanMatchPassword>
+                        <InputRegister id="RegisterFieldConfirmPassword" onKeyUp={check_pass} type="password" required />
 
 
                         <ContainerEditBtnRegister>

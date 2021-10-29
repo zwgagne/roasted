@@ -1,21 +1,33 @@
-import React from "react"
+import React, { useState } from "react";
 import IndexScreen from "../Screens/IndexScreen"
 import ProfilScreen from "../Screens/ProfilScreen"
 import RegisterScreen from "../Screens/RegisterScreen"
-import { Route, Switch } from 'react-router'
+import { Route, Switch, Redirect } from 'react-router'
 
 const AppNavigator = () => {
+
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    const setAuth = (boolean) => {
+      setIsAuthenticated(boolean);
+    };
+  
     return (
         <Switch>
             <Route exact path="/">
                 <IndexScreen/>
             </Route>
-            <Route exact path="/profil">
-                <ProfilScreen/>
+
+            <Route exact path="/profil" render={props => isAuthenticated ?
+                <ProfilScreen {...props} setAuth={setAuth} /> : 
+                <Redirect to="/" />}>
             </Route>
-            <Route exact path="/register">
-                <RegisterScreen/>
+
+            <Route exact path="/register" render={ props => !isAuthenticated ? 
+                ( <RegisterScreen {...props} setAuth={setAuth} /> ) : 
+                ( <Redirect to="/" /> ) }>
             </Route>
+
         </Switch>
     );
 };
