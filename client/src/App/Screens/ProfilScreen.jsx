@@ -75,7 +75,7 @@ const BtnEditInfoProfil = styled.button`
    border-radius: 40px;
 `;
 
-const ProfilScreen = () => {
+const ProfilScreen = ({setAuth}) => {
     return (
         <>
             <NavHeader />

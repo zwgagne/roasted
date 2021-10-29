@@ -1,7 +1,7 @@
 version: "3"
 services:
   db:
-    image: "postgres"
+    image: "postgres:latest"
     environment:
       - POSTGRES_USER=devRoasted
       - POSTGRES_PASSWORD=roastPass
@@ -25,12 +25,16 @@ services:
     volumes:
       - /app/node_modules
       - ./server:/app
+    depends_on:
+      - db
     environment:
-      - PGUSER=devroasted45
-      - PGHOST=postgres
+      - PGUSER=devRoasted
+      - PGHOST=db
       - PGDATABASE=roastedcoffe
-      - PGPASSWORD=DeV45Roast
+      - PGPASSWORD=roastPass
       - PGPORT=5432
+    ports:
+      - "5000:5000"
   client:
     stdin_open: true
     environment:

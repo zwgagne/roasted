@@ -18,12 +18,10 @@ const AppNavigator = () => {
             <Route exact path="/">
                 <IndexScreen/>
             </Route>
-
             <Route exact path="/profil" render={props => isAuthenticated ?
                 <ProfilScreen {...props} setAuth={setAuth} /> : 
                 <Redirect to="/" />}>
             </Route>
-
             <Route exact path="/login">
                 <LoginScreen/>
             </Route>
@@ -31,7 +29,6 @@ const AppNavigator = () => {
                 ( <RegisterScreen {...props} setAuth={setAuth} /> ) : 
                 ( <Redirect to="/" /> ) }>
             </Route>
-
         </Switch>
     );
 };
