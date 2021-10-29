@@ -3,6 +3,7 @@ import IndexScreen from "../Screens/IndexScreen"
 import ProfilScreen from "../Screens/ProfilScreen"
 import RegisterScreen from "../Screens/RegisterScreen"
 import { Route, Switch, Redirect } from 'react-router'
+import LoginScreen from "../Screens/LoginScreen";
 
 const AppNavigator = () => {
 
@@ -23,6 +24,9 @@ const AppNavigator = () => {
                 <Redirect to="/" />}>
             </Route>
 
+            <Route exact path="/">
+                <LoginScreen/>
+            </Route>
             <Route exact path="/register" render={ props => !isAuthenticated ? 
                 ( <RegisterScreen {...props} setAuth={setAuth} /> ) : 
                 ( <Redirect to="/" /> ) }>
