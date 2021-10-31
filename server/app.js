@@ -18,14 +18,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// routes
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
-
-//LOGIN & REGISTER
 app.use("/auth", require("./routes/auth"));
-
-//DASHBOARD
-app.use("/dashboard", require("./routes/dashboard"));
+app.use("/profile", require("./routes/profile"));
 
 
 // catch 404 and forward to error handler

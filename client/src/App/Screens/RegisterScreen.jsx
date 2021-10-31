@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -113,7 +113,7 @@ const RegisterScreen = ({ setAuth }) => {
       }
       
       function check_pass() {
-            if (document.getElementById('RegisterFieldPassword').value == document.getElementById('RegisterFieldConfirmPassword').value) {
+            if (document.getElementById('RegisterFieldPassword').value === document.getElementById('RegisterFieldConfirmPassword').value) {
                 document.getElementById('MatchConfirmationMessage').innerHTML = ' ok!';
                 document.getElementById('MatchConfirmationMessage').style.color= 'green';
             } else {

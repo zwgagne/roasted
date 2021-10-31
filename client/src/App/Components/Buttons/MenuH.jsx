@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components"
 import { Link } from "react-router-dom";
+import { UserInfos } from "../../Contexts/UserInfos";
 import { ReactComponent as MenuIcon } from "../../../Assets/Images/Icons/MenuHamberger.svg";
 //import { ReactComponent as CloseMenu } from "../../../Assets/Images/Icons/close.svg";
 import { ReactComponent as Logout } from "../../../Assets/Images/Icons/Logout.svg";
 import { ReactComponent as Login } from "../../../Assets/Images/Icons/Login.svg";
+import { ReactComponent as HomePage } from "../../../Assets/Images/Icons/HomePage.svg";
 
 const BTNMenuHam = styled.div`
    padding: 7px 0px;
@@ -80,20 +82,28 @@ function NavItem(props) {
     );
 }
 function DropdownProfilMenu() {
+    const { IsLoggedIn, setIsLoggedIn } = useContext(UserInfos)
+    const logout = e => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+    }
     function DropdownItem(props) {
         return (
-            <MenuItem to={props.linkTo}>
-                <SpanIconItem>{props.Icon1}</SpanIconItem>
-                {props.children}
-                <SpanIconItem>{props.Icon2}</SpanIconItem>
-            </MenuItem>
+            <>
+                <MenuItem to={props.linkTo}>
+                    <SpanIconItem>{props.Icon1}</SpanIconItem>
+                    {props.children}
+                    <SpanIconItem>{props.Icon2}</SpanIconItem>
+                </MenuItem>
+            </>
         )
     }
     return (
         <DropDown>
-            <DropdownItem linkTo="/" Icon1="💻"> Page 1</DropdownItem>
-            <DropdownItem linkTo="/login" Icon1={<Login />}> Connexion</DropdownItem>
-            <DropdownItem linkTo="/logout" Icon1={<Logout />}>Déconnexion</DropdownItem>
+            <DropdownItem linkTo="/" Icon1={<HomePage />}> Accueil</DropdownItem>
+            {!IsLoggedIn && <DropdownItem linkTo="/login" Icon1={<Login />}> Connexion</DropdownItem>}
+            {IsLoggedIn && <DropdownItem linkTo="/" Icon1={<Logout />}><span onClick={e => logout(e)}>Déconnexion</span> </DropdownItem>}
         </DropDown>
     )
 }
