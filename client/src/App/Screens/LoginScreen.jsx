@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -71,19 +71,48 @@ const LinkToLogin = styled(Link)`
    color: #000000;
 `;
 
-const LoginScreen = () => {
+const LoginScreen = ({ setAuth }) => {
+
+   const [inputs, setInputs] = useState({
+      email: "",
+      password: ""
+   })    
+   const {email, password} = inputs;
+
+   const onChange = (e) => {
+     setInputs({...inputs, [e.target.name] : e.target.value });
+   };   
+
+   const onSubmitForm = async (e) => {
+      e.preventDefault();
+
+      try {
+         const body = {email, password};
+         const response = await fetch("http://localhost:5000/auth/login", {
+            method: "POST", 
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify(body)    
+      });
+         const parseRes = await response.json();
+         localStorage.setItem("token", parseRes.token);
+         setAuth(true);
+      } catch (err) {
+         console.error(err.message)
+      }
+   }  
+   
     return (
         <>
             <NavHeader />
             <MainLogin>
                 <SectionLogin>
                     <Headind3>Rebonjour!</Headind3>
-                    <FormLogin>
+                    <FormLogin onSubmit={onSubmitForm}>
                         <LabelLogin htmlFor="LoginEmail">Adresse courriel</LabelLogin>
-                        <InputLogin type="email" id="LoginEmail" name="email" placeholder="votre@email.com" required />
+                        <InputLogin type="email" id="LoginEmail" name="email" placeholder="votre@email.com" value={email} onChange={e => onChange(e)} required />
 
                         <LabelLogin htmlFor="LoginPassword">Mot de passe</LabelLogin>
-                        <InputLogin type="password" id="LoginPassword" name="password" placeholder="••••••••••••••" required />
+                        <InputLogin type="password" id="LoginPassword" name="password" placeholder="••••••••••••••" value={password} onChange={e => onChange(e)} required />
 
                         <ContainerEditBtnLogin>
                             <BtnLogin type="submit">Connexion</BtnLogin>
