@@ -113,7 +113,7 @@ const RegisterScreen = ({ setAuth }) => {
       }
       
       function check_pass() {
-            if (document.getElementById('RegisterFieldPassword').value == document.getElementById('RegisterFieldConfirmPassword').value) {
+            if (document.getElementById('RegisterFieldPassword').value === document.getElementById('RegisterFieldConfirmPassword').value) {
                 document.getElementById('MatchConfirmationMessage').innerHTML = ' ok!';
                 document.getElementById('MatchConfirmationMessage').style.color= 'green';
             } else {

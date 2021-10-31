@@ -40,7 +40,7 @@ const InputLogin = styled.input`
    border: none;
    border-radius: 40px;
    color: #D3B992;
-   margin-right: 20px;
+   margin-right: 30px;
 `;
 const ContainerEditBtnLogin = styled.div`
    margin-top: 52px;
