@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import DefaultAvatar from "../../Assets/Images/Icons/AvatarDefault.svg"
@@ -43,6 +43,11 @@ const LabelInputProfil = styled.label`
    font-size: 16px;
    font-weight: bold;
 `;
+const SpanProfil = styled.span`
+width: 100%;
+font-size: 16px;
+font-weight: bold;
+`;
 const InputProfil = styled.input`
    width: 100%;
    background-color: transparent;
@@ -66,6 +71,7 @@ const ContainerEditBtnProfil = styled.div`
   }
 `
 const BtnEditInfoProfil = styled.button`
+   cursor: pointer;
    background-color: #D0C4A5;
    font-size: 18px;
    font-weight: bold;
@@ -75,7 +81,57 @@ const BtnEditInfoProfil = styled.button`
    border-radius: 40px;
 `;
 
-const ProfilScreen = () => {
+const ProfilScreen = ({ setAuth }) => {
+
+    const [inputs, setInputs] = useState({ email: "", name: "" })
+    const { name, email } = inputs;
+
+    async function getUserInfo() {
+        try {
+            const response = await fetch("http://localhost:5000/profile/edit", {
+                method: "GET",
+                headers: { token: localStorage.token }
+            });
+
+            const parseRes = await response.json();
+            setInputs({
+                email: parseRes.user_email,
+                name: parseRes.user_name
+            });
+
+        } catch (err) {
+            console.error(err.message)
+        }
+    }
+
+    useEffect(() => {
+        getUserInfo()
+    }, [])
+
+
+
+    const onChange = (e) => {
+        setInputs({ ...inputs, [e.target.name]: e.target.value });
+    };
+
+    const onSubmitForm = async (e) => {
+        e.preventDefault();
+
+        try {
+            const body = { name };
+            await fetch("http://localhost:5000/profile/edit", {
+                method: "POST",
+                headers: {
+                    token: localStorage.token,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+
+        } catch (err) {
+            console.error(err.message)
+        }
+    }
     return (
         <>
             <NavHeader />
@@ -83,15 +139,12 @@ const ProfilScreen = () => {
                 <SectionRegister>
                     <Heading3>Profil</Heading3>
                     <BGAvatar>
-                        <ImgAvatarSize src={DefaultAvatar} alt="Avatar profil"/>
+                        <ImgAvatarSize src={DefaultAvatar} alt="Avatar profil" />
                     </BGAvatar>
-                    <FormProfil>
+                    <FormProfil onSubmit={onSubmitForm}>
                         <LabelInputProfil htmlFor="profilFieldUserName">Nom d'utilisateur</LabelInputProfil>
-                        <InputProfil id="profilFieldUserName" name="username" type="text" />
-                        <LabelInputProfil htmlFor="profilFieldEmail">Adresse courriel</LabelInputProfil>
-                        <InputProfil id="profilFieldEmail" name="email" type="email" />
-                        <LabelInputProfil htmlFor="RegisterFieldPassword">Mot de passe</LabelInputProfil>
-                        <InputProfil id="RegisterFieldPassword" name="password" type="password" required />
+                        <InputProfil id="profilFieldUserName" name="name" type="text" value={name} onChange={e => onChange(e)} />
+                        <SpanProfil>{email}</SpanProfil>
                         <ContainerEditBtnProfil>
                             <BtnEditInfoProfil type="submit">Modifier</BtnEditInfoProfil>
                         </ContainerEditBtnProfil>

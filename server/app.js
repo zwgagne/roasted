@@ -4,31 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require("cors");
-const keys = require('./keys')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-var app = express();
+const app = express();
 app.use(cors());
-
-// Postgres Set up
-const { Pool } = require("pg");
-const pgClient = new Pool({
-  user: keys.pgUser,
-  host: keys.pgHost,
-  database: keys.pgDatabase,
-  password: keys.pgPassword,
-  port: keys.pgPort
-});
-
-pgClient.on("connect", client => {
-  client
-      .query("CREATE TABLE IF NOT EXISTS values (number INT)")
-      .catch(err => console.log("PG ERROR", err));
-});
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,16 +18,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// routes
+app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users'));
+app.use("/auth", require("./routes/auth"));
+app.use("/profile", require("./routes/profile"));
+
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -58,5 +40,13 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(5000, () => {
+  try {
+    console.log("Listening on port 5000")
+  } catch (err) {
+    console.log(err)
+  }
+})
 
 module.exports = app;

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import LogoRCC from "../Buttons/LogoRCC";
 import ProfilIcons from "../Buttons/ProfilIcon";
 import MenuH from "../Buttons/MenuH";
+import { UserInfos } from "../../Contexts/UserInfos";
 
 const ContainerNav = styled.nav`
    display: flex;
@@ -18,11 +19,12 @@ const PositionNav = styled.div`
 `
 
 const NavHeader = () => {
+    const { IsLoggedIn } = useContext(UserInfos)
     return (
         <ContainerNav>
             <LogoRCC />
             <PositionNav>
-                <ProfilIcons />
+                {IsLoggedIn && <ProfilIcons />}
                 <MenuH />
             </PositionNav>
         </ContainerNav>
