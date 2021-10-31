@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import DefaultAvatar from "../../Assets/Images/Icons/AvatarDefault.svg"
@@ -76,6 +76,64 @@ const BtnEditInfoProfil = styled.button`
 `;
 
 const ProfilScreen = ({setAuth}) => {
+
+    const [inputs, setInputs] = useState({ email: "", name: "" })
+    const {email, name} = inputs;
+    const body = {email, name};
+
+    async function getUserInfo() {
+        try {
+            const response = await fetch("http://localhost:5000/profile/edit", {
+                method: "GET",
+                headers: { token: localStorage.token }
+            });
+
+            const parseRes = await response.json();
+            setInputs({
+                email: parseRes.user_email,
+                name: parseRes.user_name
+            });
+
+        } catch (err) {
+            console.error(err.message)
+        }
+    }
+
+    useEffect(() => {
+        getUserInfo()
+    },[])
+
+      
+
+    const onChange = (e) => {
+        setInputs({...inputs, [e.target.name] : e.target.value });
+      };
+
+    const onSubmitForm = async (e) => {
+        e.preventDefault();
+    
+        try {
+            await fetch("http://localhost:5000/profile/edit", {
+                method: "POST", 
+                headers: { 
+                    token: localStorage.token,
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+
+
+        } catch (err) {
+            console.error(err.message)
+        }
+      }
+
+    const logout = e => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        setAuth(false);
+    }
+
     return (
         <>
             <NavHeader />
@@ -85,17 +143,18 @@ const ProfilScreen = ({setAuth}) => {
                     <BGAvatar>
                         <ImgAvatarSize src={DefaultAvatar} alt="Avatar profil"/>
                     </BGAvatar>
-                    <FormProfil>
+                    <FormProfil onSubmit={onSubmitForm}>
                         <LabelInputProfil htmlFor="profilFieldUserName">Nom d'utilisateur</LabelInputProfil>
-                        <InputProfil id="profilFieldUserName" name="username" type="text" />
+                        <InputProfil id="profilFieldUserName" name="name" type="text" value={name} onChange={e => onChange(e)}  />
                         <LabelInputProfil htmlFor="profilFieldEmail">Adresse courriel</LabelInputProfil>
-                        <InputProfil id="profilFieldEmail" name="email" type="email" />
+                        <InputProfil id="profilFieldEmail" name="email" type="email" value={email} onChange={e => onChange(e)}  />
                         <LabelInputProfil htmlFor="RegisterFieldPassword">Mot de passe</LabelInputProfil>
-                        <InputProfil id="RegisterFieldPassword" name="password" type="password" required />
+                        <InputProfil id="RegisterFieldPassword" name="password" type="password"  />
                         <ContainerEditBtnProfil>
                             <BtnEditInfoProfil type="submit">Modifier</BtnEditInfoProfil>
                         </ContainerEditBtnProfil>
                     </FormProfil>
+                    <button onClick={e => logout(e)}>Logout</button>
                 </SectionRegister>
             </MainProfil>
         </>
