@@ -43,6 +43,11 @@ const LabelInputProfil = styled.label`
    font-size: 16px;
    font-weight: bold;
 `;
+const SpanProfil = styled.span`
+width: 100%;
+font-size: 16px;
+font-weight: bold;
+`;
 const InputProfil = styled.input`
    width: 100%;
    background-color: transparent;
@@ -78,8 +83,7 @@ const BtnEditInfoProfil = styled.button`
 const ProfilScreen = ({setAuth}) => {
 
     const [inputs, setInputs] = useState({ email: "", name: "" })
-    const {email, name} = inputs;
-    const body = {email, name};
+    const { name, email } = inputs;
 
     async function getUserInfo() {
         try {
@@ -107,12 +111,13 @@ const ProfilScreen = ({setAuth}) => {
 
     const onChange = (e) => {
         setInputs({...inputs, [e.target.name] : e.target.value });
-      };
+    };
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
     
         try {
+            const body = { name };
             await fetch("http://localhost:5000/profile/edit", {
                 method: "POST", 
                 headers: { 
@@ -121,7 +126,6 @@ const ProfilScreen = ({setAuth}) => {
                 },
                 body: JSON.stringify(body)
             });
-
 
         } catch (err) {
             console.error(err.message)
@@ -146,17 +150,14 @@ const ProfilScreen = ({setAuth}) => {
                     <FormProfil onSubmit={onSubmitForm}>
                         <LabelInputProfil htmlFor="profilFieldUserName">Nom d'utilisateur</LabelInputProfil>
                         <InputProfil id="profilFieldUserName" name="name" type="text" value={name} onChange={e => onChange(e)}  />
-                        <LabelInputProfil htmlFor="profilFieldEmail">Adresse courriel</LabelInputProfil>
-                        <InputProfil id="profilFieldEmail" name="email" type="email" value={email} onChange={e => onChange(e)}  />
-                        <LabelInputProfil htmlFor="RegisterFieldPassword">Mot de passe</LabelInputProfil>
-                        <InputProfil id="RegisterFieldPassword" name="password" type="password"  />
+                        <SpanProfil>{email}</SpanProfil>
                         <ContainerEditBtnProfil>
                             <BtnEditInfoProfil type="submit">Modifier</BtnEditInfoProfil>
                         </ContainerEditBtnProfil>
                     </FormProfil>
-                    <button onClick={e => logout(e)}>Logout</button>
                 </SectionRegister>
             </MainProfil>
+            <button onClick={e => logout(e)}>Logout</button>
         </>
     )
 }
