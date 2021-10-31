@@ -50,6 +50,7 @@ const ContainerEditBtnLogin = styled.div`
   }
 `
 const BtnLogin = styled.button`
+   cursor: pointer;
    font-size: 18px;
    font-weight: bold;
    background-color: #D0C4A5;

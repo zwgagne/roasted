@@ -71,6 +71,7 @@ const ContainerEditBtnProfil = styled.div`
   }
 `
 const BtnEditInfoProfil = styled.button`
+   cursor: pointer;
    background-color: #D0C4A5;
    font-size: 18px;
    font-weight: bold;
@@ -80,7 +81,7 @@ const BtnEditInfoProfil = styled.button`
    border-radius: 40px;
 `;
 
-const ProfilScreen = ({setAuth}) => {
+const ProfilScreen = ({ setAuth }) => {
 
     const [inputs, setInputs] = useState({ email: "", name: "" })
     const { name, email } = inputs;
@@ -105,24 +106,24 @@ const ProfilScreen = ({setAuth}) => {
 
     useEffect(() => {
         getUserInfo()
-    },[])
+    }, [])
 
-      
+
 
     const onChange = (e) => {
-        setInputs({...inputs, [e.target.name] : e.target.value });
+        setInputs({ ...inputs, [e.target.name]: e.target.value });
     };
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
-    
+
         try {
             const body = { name };
             await fetch("http://localhost:5000/profile/edit", {
-                method: "POST", 
-                headers: { 
+                method: "POST",
+                headers: {
                     token: localStorage.token,
-                    "Content-Type" : "application/json"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(body)
             });
@@ -130,14 +131,7 @@ const ProfilScreen = ({setAuth}) => {
         } catch (err) {
             console.error(err.message)
         }
-      }
-
-    const logout = e => {
-        e.preventDefault();
-        localStorage.removeItem("token");
-        setAuth(false);
     }
-
     return (
         <>
             <NavHeader />
@@ -145,11 +139,11 @@ const ProfilScreen = ({setAuth}) => {
                 <SectionRegister>
                     <Heading3>Profil</Heading3>
                     <BGAvatar>
-                        <ImgAvatarSize src={DefaultAvatar} alt="Avatar profil"/>
+                        <ImgAvatarSize src={DefaultAvatar} alt="Avatar profil" />
                     </BGAvatar>
                     <FormProfil onSubmit={onSubmitForm}>
                         <LabelInputProfil htmlFor="profilFieldUserName">Nom d'utilisateur</LabelInputProfil>
-                        <InputProfil id="profilFieldUserName" name="name" type="text" value={name} onChange={e => onChange(e)}  />
+                        <InputProfil id="profilFieldUserName" name="name" type="text" value={name} onChange={e => onChange(e)} />
                         <SpanProfil>{email}</SpanProfil>
                         <ContainerEditBtnProfil>
                             <BtnEditInfoProfil type="submit">Modifier</BtnEditInfoProfil>
@@ -157,7 +151,6 @@ const ProfilScreen = ({setAuth}) => {
                     </FormProfil>
                 </SectionRegister>
             </MainProfil>
-            <button onClick={e => logout(e)}>Logout</button>
         </>
     )
 }

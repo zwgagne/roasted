@@ -103,7 +103,7 @@ function DropdownProfilMenu() {
         <DropDown>
             <DropdownItem linkTo="/" Icon1={<HomePage />}> Accueil</DropdownItem>
             {!IsLoggedIn && <DropdownItem linkTo="/login" Icon1={<Login />}> Connexion</DropdownItem>}
-            {IsLoggedIn && <DropdownItem Icon1={<Logout />}><span onClick={e => logout(e)}>Déconnexion</span> </DropdownItem>}
+            {IsLoggedIn && <DropdownItem linkTo="/" Icon1={<Logout />}><span onClick={e => logout(e)}>Déconnexion</span> </DropdownItem>}
         </DropDown>
     )
 }

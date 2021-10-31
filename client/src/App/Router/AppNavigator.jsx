@@ -15,11 +15,11 @@ const AppNavigator = () => {
         try {
             const response = await fetch("http://localhost:5000/auth/is-verified", {
                 method: "GET",
-                headers: { token:localStorage.token }
-            }); 
+                headers: { token: localStorage.token }
+            });
             const parseRes = await response.json()
-            parseRes === true ? setIsLoggedIn(true):
-            setIsLoggedIn(false)
+            parseRes === true ? setIsLoggedIn(true) :
+                setIsLoggedIn(false)
         } catch (err) {
             console.error(err.message);
         }
@@ -27,7 +27,7 @@ const AppNavigator = () => {
 
     useEffect(() => {
         isAuth();
-    },[]);
+    }, []);
 
     return (
         <UserInfos.Provider value={{ IsLoggedIn, setIsLoggedIn }}>
@@ -40,8 +40,9 @@ const AppNavigator = () => {
                     <Redirect to="/" />}>
                 </Route>
 
-                <Route exact path="/login">
-                    <LoginScreen />
+                <Route exact path="/login" render={props => !IsLoggedIn ?
+                    (<LoginScreen {...props} setAuth={setAuth} />) :
+                    (<Redirect to="/" />)}>
                 </Route>
 
                 <Route exact path="/register" render={props => !IsLoggedIn ?
