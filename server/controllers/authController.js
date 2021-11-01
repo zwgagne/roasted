@@ -14,7 +14,7 @@ module.exports = {
       const user = await pgClient.query("SELECT * FROM users WHERE user_email = $1", [email]);
 
       if (user.rows.length !== 0) {
-        return res.status(401).send("User already exists")
+        return res.status(401).json("User already exists")
       }
 
       //3. Bcrypt
@@ -27,11 +27,11 @@ module.exports = {
 
       //5. Generate JWT token
       const token = jwtGenerator(newUser.rows[0].user_id);
-      res.json({ token });
+      res.status(200).json({ token });
 
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).json("Server error");
     }
   },
 
@@ -55,13 +55,12 @@ module.exports = {
         return res.status(401).json("Email or password is incorrect")
       }
 
-      //4. Give JWT token
       const token = jwtGenerator(user.rows[0].user_id);
-      res.json({ token });
+      res.status(200).json({ token });
 
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).json("Server error");
     }
   },
 
@@ -70,7 +69,7 @@ module.exports = {
       res.json(true);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).json("Server error");
     }
   }
 }
