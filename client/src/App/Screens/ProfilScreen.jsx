@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import DefaultAvatar from "../../Assets/Images/Icons/AvatarDefault.svg"
+import Messages from "../Components/Buttons/Messages";
 
 const MainProfil = styled.main`
    display: flex;
@@ -81,8 +82,10 @@ const BtnEditInfoProfil = styled.button`
    border-radius: 40px;
 `;
 
-const ProfilScreen = ({ setAuth }) => {
 
+const ProfilScreen = () => {
+
+    const [serverMessage, setServerMessage] = useState([])
     const [inputs, setInputs] = useState({ email: "", name: "" })
     const { name, email } = inputs;
 
@@ -119,7 +122,7 @@ const ProfilScreen = ({ setAuth }) => {
 
         try {
             const body = { name };
-            await fetch("http://localhost:5000/profile/edit", {
+            const response = await fetch("http://localhost:5000/profile/edit", {
                 method: "POST",
                 headers: {
                     token: localStorage.token,
@@ -127,6 +130,11 @@ const ProfilScreen = ({ setAuth }) => {
                 },
                 body: JSON.stringify(body)
             });
+            setServerMessage([])
+            const res = await response.json();
+            console.log(res)
+            setServerMessage( arr => [...arr, res])    
+
 
         } catch (err) {
             console.error(err.message)
@@ -147,6 +155,7 @@ const ProfilScreen = ({ setAuth }) => {
                         <SpanProfil>{email}</SpanProfil>
                         <ContainerEditBtnProfil>
                             <BtnEditInfoProfil type="submit">Modifier</BtnEditInfoProfil>
+                            <Messages serverMessage={serverMessage} />
                         </ContainerEditBtnProfil>
                     </FormProfil>
                 </SectionRegister>

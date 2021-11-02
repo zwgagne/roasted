@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Messages from "../Components/Buttons/Messages";
 
 const MainRegister = styled.main`
    display: flex;
@@ -85,7 +86,7 @@ const SpanMatchPassword = styled.span`
 `;
 
 const RegisterScreen = ({ setAuth }) => {
-
+    const [serverMessage, setServerMessage] = useState([])
     const [inputs, setInputs] = useState({
         email: "",
         name: "",
@@ -109,10 +110,18 @@ const RegisterScreen = ({ setAuth }) => {
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify(body)    
           });
-
-          const parseRes = await response.json();
-          localStorage.setItem("token", parseRes.token);
-          setAuth(true);
+          const status = await response.status;
+          const res = await response.json()
+           setServerMessage([])
+          console.log(status)
+          if (status !== 200) {
+             setAuth(false);
+             setServerMessage( arr => [...arr, res])
+          } else {
+             localStorage.setItem("token", res.token);
+             setAuth(true); 
+          }
+ 
 
         } catch (err) {
           console.error(err.message)
@@ -141,6 +150,7 @@ const RegisterScreen = ({ setAuth }) => {
 
                         <LabelInputRegister htmlFor="RegisterFieldEmail">Adresse courriel</LabelInputRegister>
                         <InputRegister id="RegisterFieldEmail" name="email" type="email" value={email} onChange={e => onChange(e)} required />
+                        <Messages serverMessage={serverMessage} />
 
                         <LabelInputRegister id="labelPw" htmlFor="RegisterFieldPassword">Mot de passe</LabelInputRegister>
                         <InputRegister id="RegisterFieldPassword" name="password" type="password" value={password} onChange={e => onChange(e)} required />
