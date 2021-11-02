@@ -53,11 +53,17 @@ const BtnLogin = styled.button`
    cursor: pointer;
    font-size: 18px;
    font-weight: bold;
-   background-color: #D0C4A5;
+   background-color: #D0B98E;
    border: none;
    border-radius: 40px;
    padding: 15px 5rem;
    margin-top: 30px;
+   &:hover {
+      background-color: #EEDDBE;
+   }
+   &:active {
+      
+   }
 `;
 
 const ContainerLogin = styled.div`

@@ -34,14 +34,21 @@ const InputRegister = styled.input`
    background-color: transparent;
    border: none;
    border-bottom: solid 1px #000000;
-   margin-top: 14px;
-   margin-bottom: 24px;
+   margin-top: 4px;
+   margin-bottom: 14px;
+   padding-top: 10px;
+   padding-bottom: 10px;
    font-size: 16px;
    color: #8B8B85;
    padding-left: 10px;
    &:active, :hover, :focus{
        border: none;
-       border-bottom: solid 1px #EC734D;
+       border-bottom: solid 1px #E7D0A7;
+       outline: none;
+    &:active {
+      background-color: #FFFCF6;
+
+    }
    }
 `;
 const ContainerEditBtnRegister = styled.div`
