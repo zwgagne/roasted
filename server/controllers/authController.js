@@ -14,7 +14,7 @@ module.exports = {
       const user = await pgClient.query("SELECT * FROM users WHERE user_email = $1", [email]);
 
       if (user.rows.length !== 0) {
-        return res.status(401).send("User already exists")
+        return res.status(401).json("Ce email est utilisé par un autre buveur")
       }
 
       //3. Bcrypt
@@ -27,11 +27,11 @@ module.exports = {
 
       //5. Generate JWT token
       const token = jwtGenerator(newUser.rows[0].user_id);
-      res.json({ token });
+      res.status(200).json({ token });
 
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).json("Server error");
     }
   },
 
@@ -45,23 +45,22 @@ module.exports = {
       const user = await pgClient.query("SELECT * FROM users WHERE user_email = $1", [email]);
 
       if (user.rows.length === 0) {
-        return res.status(401).json("Email or password is incorrect")
+        return res.status(401).json("Email ou mot de passe erroné")
       }
 
       //3. Check if req password = database password
       const validPassword = await bcrypt.compare(password, user.rows[0].user_password);
 
       if (!validPassword) {
-        return res.status(401).json("Email or password is incorrect")
+        return res.status(401).json("Email ou mot de passe erroné")
       }
 
-      //4. Give JWT token
       const token = jwtGenerator(user.rows[0].user_id);
-      res.json({ token });
+      res.status(200).json({ token });
 
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).json("Server error");
     }
   },
 
@@ -70,7 +69,7 @@ module.exports = {
       res.json(true);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).json("Server error");
     }
   }
 }

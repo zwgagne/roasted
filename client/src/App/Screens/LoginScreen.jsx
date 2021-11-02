@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Messages from "../Components/Buttons/Messages";
 
 const MainLogin = styled.main`
    display: flex;
@@ -74,6 +75,7 @@ const LinkToLogin = styled(Link)`
 
 const LoginScreen = ({ setAuth }) => {
 
+   const [serverMessage, setServerMessage ] = useState([])
    const [inputs, setInputs] = useState({
       email: "",
       password: ""
@@ -92,15 +94,24 @@ const LoginScreen = ({ setAuth }) => {
          const response = await fetch("http://localhost:5000/auth/login", {
             method: "POST", 
             headers: {"Content-Type" : "application/json"},
-            body: JSON.stringify(body)    
+            body: JSON.stringify(body)
       });
-         const parseRes = await response.json();
-         localStorage.setItem("token", parseRes.token);
-         setAuth(true);
-      } catch (err) {
+         const status = await response.status;
+         const res = await response.json()
+         setServerMessage([])
+         if (status !== 200) {
+            setAuth(false);
+            setServerMessage( arr => [...arr, res])
+         } else {
+            localStorage.setItem("token", res.token);
+            setAuth(true); 
+         }
+      }  catch (err) {
          console.error(err.message)
       }
-   }  
+   }
+   
+   
    
     return (
         <>
@@ -109,12 +120,12 @@ const LoginScreen = ({ setAuth }) => {
                 <SectionLogin>
                     <Headind3>Rebonjour!</Headind3>
                     <FormLogin onSubmit={onSubmitForm}>
+                        <Messages serverMessage={serverMessage} />
                         <LabelLogin htmlFor="LoginEmail">Adresse courriel</LabelLogin>
                         <InputLogin type="email" id="LoginEmail" name="email" placeholder="votre@email.com" value={email} onChange={e => onChange(e)} required />
 
                         <LabelLogin htmlFor="LoginPassword">Mot de passe</LabelLogin>
                         <InputLogin type="password" id="LoginPassword" name="password" placeholder="••••••••••••••" value={password} onChange={e => onChange(e)} required />
-
                         <ContainerEditBtnLogin>
                             <BtnLogin type="submit">Connexion</BtnLogin>
                         </ContainerEditBtnLogin>
