@@ -50,19 +50,30 @@ font-size: 16px;
 font-weight: bold;
 `;
 const InputProfil = styled.input`
-   width: 100%;
-   background-color: transparent;
-   border: none;
-   border-bottom: solid 1px #000000;
-   margin-top: 14px;
-   margin-bottom: 24px;
-   font-size: 16px;
-   color: #8B8B85;
-   padding-left: 10px;
-   &:active, :hover, :focus{
-       border: none;
-       border-bottom: solid 1px #EC734D;
-   }
+width: 100%;
+background-color: transparent;
+border: none;
+border-bottom: solid 1px #000000;
+margin-top: 4px;
+margin-bottom: 14px;
+padding-top: 10px;
+padding-bottom: 10px;
+font-size: 16px;
+color: #B6B6B6;
+padding-left: 10px;
+&:active, :hover, :focus{
+    border: none;
+    border-bottom: solid 1px #E7D0A7;
+    outline: none;
+    transition: all 0.2s ease;
+ &:active, :focus {
+   background-color: #FFFCF6;
+   color: #211D1A;
+   transition: all 0.2s ease;
+
+
+ }
+}
 `;
 const ContainerEditBtnProfil = styled.div`
    margin-top: 176px;
@@ -72,14 +83,31 @@ const ContainerEditBtnProfil = styled.div`
   }
 `
 const BtnEditInfoProfil = styled.button`
-   cursor: pointer;
-   background-color: #D0C4A5;
-   font-size: 18px;
-   font-weight: bold;
-   font-family: 'Roboto', sans-serif;
-   border: none;
-   padding: 15px 60px;
-   border-radius: 40px;
+background-color: #E7D0A7;
+text-decoration: none;
+font-size: 18px;
+font-weight: bold;
+font-family: 'Roboto', sans-serif;
+border: none;
+padding: 15px 60px;
+border-radius: 40px;
+&:hover {
+  background-color: #EEDDBE;
+  box-shadow: 0px 3px 4px rgba(65, 40, 30, 0.25);
+  transition: all 0.2s ease;
+}
+&:active {
+ background: #E7D0A7;
+ box-shadow: inset 1px 2px 10px rgba(65, 40, 30, 0.15);
+ transition: all 0.2s ease;
+}
+&:disabled {
+ background: #EAE8E3;
+ color: #8B8B85;
+}
+&:visited {
+  color: inherit;
+}
 `;
 
 

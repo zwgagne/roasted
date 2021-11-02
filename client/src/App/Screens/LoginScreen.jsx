@@ -26,6 +26,8 @@ const Headind3 = styled.h3`
 const FormLogin = styled.form`
    width: 100%;
    margin-top: 24px;
+   display: flex;
+   flex-direction: column;
 `;
 const LabelLogin = styled.label`
    width: 100%;
@@ -33,15 +35,30 @@ const LabelLogin = styled.label`
    font-weight: bold;
 `;
 const InputLogin = styled.input`
-   width: 88%;
-   margin: 8px 0px 16px 0px;
-   font-family: 'Roboto', sans-serif;
-   background-color: #1F100B;
-   padding: 16px 22px;
-   border: none;
-   border-radius: 40px;
-   color: #D3B992;
-   margin-right: 30px;
+width: 100%;
+background-color: transparent;
+border: none;
+border-bottom: solid 1px #000000;
+margin-top: 4px;
+margin-bottom: 14px;
+padding-top: 10px;
+padding-bottom: 10px;
+font-size: 16px;
+color: #B6B6B6;
+padding-left: 10px;
+&:active, :hover, :focus{
+    border: none;
+    border-bottom: solid 1px #E7D0A7;
+    outline: none;
+    transition: all 0.2s ease;
+ &:active, :focus {
+   background-color: #FFFCF6;
+   color: #211D1A;
+   transition: all 0.2s ease;
+
+
+ }
+}
 `;
 const ContainerEditBtnLogin = styled.div`
    margin-top: 52px;
@@ -51,20 +68,31 @@ const ContainerEditBtnLogin = styled.div`
   }
 `
 const BtnLogin = styled.button`
-   cursor: pointer;
-   font-size: 18px;
-   font-weight: bold;
-   background-color: #D0B98E;
-   border: none;
-   border-radius: 40px;
-   padding: 15px 5rem;
-   margin-top: 30px;
-   &:hover {
-      background-color: #EEDDBE;
-   }
-   &:active {
-      
-   }
+background-color: #E7D0A7;
+text-decoration: none;
+font-size: 18px;
+font-weight: bold;
+font-family: 'Roboto', sans-serif;
+border: none;
+padding: 15px 60px;
+border-radius: 40px;
+&:hover {
+  background-color: #EEDDBE;
+  box-shadow: 0px 3px 4px rgba(65, 40, 30, 0.25);
+  transition: all 0.2s ease;
+}
+&:active {
+ background: #E7D0A7;
+ box-shadow: inset 1px 2px 10px rgba(65, 40, 30, 0.15);
+ transition: all 0.2s ease;
+}
+&:disabled {
+ background: #EAE8E3;
+ color: #8B8B85;
+}
+&:visited {
+  color: inherit;
+}
 `;
 
 const ContainerLogin = styled.div`
@@ -73,10 +101,17 @@ const ContainerLogin = styled.div`
    margin-top: 42px;
 `;
 const LinkToLogin = styled(Link)`
-   font-style: 18px;
-   font-family: 'Roboto', sans-serif;
-   font-weight: bold;
-   color: #000000;
+font-size: 18px;
+font-family: 'Roboto', sans-serif;
+font-weight: bold;
+color: #000000;
+padding: 10px 30px;
+border-radius: 40px;
+&:hover {
+ // background-color:#FFFCF7;
+ transition: all 0.3s ease;
+ letter-spacing: 1px;
+}
 `;
 
 const LoginScreen = ({ setAuth }) => {

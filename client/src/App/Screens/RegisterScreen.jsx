@@ -40,14 +40,18 @@ const InputRegister = styled.input`
    padding-top: 10px;
    padding-bottom: 10px;
    font-size: 16px;
-   color: #8B8B85;
+   color: #B6B6B6;
    padding-left: 10px;
    &:active, :hover, :focus{
        border: none;
        border-bottom: solid 1px #E7D0A7;
        outline: none;
-    &:active {
+       transition: all 0.2s ease;
+    &:active, :focus {
       background-color: #FFFCF6;
+      color: #211D1A;
+      transition: all 0.2s ease;
+
 
     }
    }
@@ -60,13 +64,27 @@ const ContainerEditBtnRegister = styled.div`
   }
 `
 const BtnEditInfoRegister = styled.button`
-   background-color: #D0C4A5;
+   background-color: #E7D0A7;
    font-size: 18px;
    font-weight: bold;
    font-family: 'Roboto', sans-serif;
    border: none;
    padding: 15px 60px;
    border-radius: 40px;
+   &:hover {
+     background-color: #EEDDBE;
+     box-shadow: 0px 3px 4px rgba(65, 40, 30, 0.25);
+     transition: all 0.2s ease;
+   }
+   &:active {
+    background: #E7D0A7;
+    box-shadow: inset 1px 2px 10px rgba(65, 40, 30, 0.15);
+    transition: all 0.2s ease;
+   }
+   &:disabled {
+    background: #EAE8E3;
+    color: #8B8B85;
+   }
 `;
 const ContainerLogin = styled.div`
    width: 100%;
@@ -74,13 +92,20 @@ const ContainerLogin = styled.div`
    margin-top: 42px;
 `;
 const LinkToLogin = styled(Link)`
-   font-style: 18px;
+   font-size: 18px;
    font-family: 'Roboto', sans-serif;
    font-weight: bold;
    color: #000000;
+   padding: 10px 30px;
+   border-radius: 40px;
+   &:hover {
+    // background-color:#FFFCF7;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+   }
 `;
 const SpanMatchPassword = styled.span`
-   font-style: 18px;
+   font-size: 18px;
    font-family: 'Roboto', sans-serif;
    font-weight: bold;
 `;
@@ -146,10 +171,10 @@ const RegisterScreen = ({ setAuth }) => {
                     <h3>Joignez-vous au Club!</h3>
                     <FormRegister onSubmit={onSubmitForm}>
                         <LabelInputRegister htmlFor="RegisterFieldUserName">Nom d'utilisateur</LabelInputRegister>
-                        <InputRegister id="RegisterFieldUserName" name="name" type="text" value={name} onChange={e => onChange(e)} required />
+                        <InputRegister id="RegisterFieldUserName" name="name" type="text" value={name} placeholder="Entrez votre nom d’utilisateur" onChange={e => onChange(e)} required />
 
                         <LabelInputRegister htmlFor="RegisterFieldEmail">Adresse courriel</LabelInputRegister>
-                        <InputRegister id="RegisterFieldEmail" name="email" type="email" value={email} onChange={e => onChange(e)} required />
+                        <InputRegister id="RegisterFieldEmail" name="email" type="email" value={email} placeholder="votre@email.com" onChange={e => onChange(e)} required />
                         <Messages serverMessage={serverMessage} />
 
                         <LabelInputRegister id="labelPw" htmlFor="RegisterFieldPassword">Mot de passe</LabelInputRegister>
