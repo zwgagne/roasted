@@ -6,11 +6,11 @@ module.exports = (req, res, next) => {
   }
 
   function missingCredentials() {
-    return res.status(401).json("Missing credentials");
+    return res.status(401).json("Informations manquantes");
   }
 
   function invalidEmail() {
-    return res.status(401).json("Invalid email");
+    return res.status(401).json("Cet email n'est pas valide");
   }
 
 

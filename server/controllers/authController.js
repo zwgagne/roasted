@@ -14,7 +14,7 @@ module.exports = {
       const user = await pgClient.query("SELECT * FROM users WHERE user_email = $1", [email]);
 
       if (user.rows.length !== 0) {
-        return res.status(401).json("User already exists")
+        return res.status(401).json("Ce email est utilisé par un autre buveur")
       }
 
       //3. Bcrypt
@@ -45,14 +45,14 @@ module.exports = {
       const user = await pgClient.query("SELECT * FROM users WHERE user_email = $1", [email]);
 
       if (user.rows.length === 0) {
-        return res.status(401).json("Email or password is incorrect")
+        return res.status(401).json("Email ou mot de passe erroné")
       }
 
       //3. Check if req password = database password
       const validPassword = await bcrypt.compare(password, user.rows[0].user_password);
 
       if (!validPassword) {
-        return res.status(401).json("Email or password is incorrect")
+        return res.status(401).json("Email ou mot de passe erroné")
       }
 
       const token = jwtGenerator(user.rows[0].user_id);

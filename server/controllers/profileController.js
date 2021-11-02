@@ -39,7 +39,7 @@ module.exports = {
 
       //4. Update user
       await pgClient.query("UPDATE users SET user_name = $1 WHERE user_id = $2", [name, userId])
-      res.status(200).json("Vos modifications ont été enregistrées.")
+      res.status(200).json("Vos modifications ont été enregistrées")
 
     } catch (err) {
       console.error(err.message);
