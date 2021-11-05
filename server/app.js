@@ -17,6 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routes
 app.use("/auth", require("./routes/auth"));
 app.use("/profile", require("./routes/profile"));
+app.use("/friends", require("./routes/friends"));
 
 
 // catch 404 and forward to error handler
