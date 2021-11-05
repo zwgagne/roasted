@@ -38,7 +38,6 @@ const BtnNewPost = styled.button`
   }
 `;
 
-
 const NewPost = () => {
     return (
         <>

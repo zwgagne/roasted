@@ -7,6 +7,7 @@ import { UserInfos } from "../Contexts/UserInfos";
 import AddPostFeed from "../Components/Main/AddPostFeed";
 import Avatare from "../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import { LightBoxNewPost } from "../Contexts/LightBoxNewPost";
+import PostCard from "../Components/Main/PostCard";
 
 const MainIndex = styled.main`
    display: flex;
@@ -22,6 +23,9 @@ const MainFeed = styled.main`
    flex-wrap: wrap;
    padding: 36px 66px;
    justify-content: center;
+   @media (min-width: 1985px) {
+    padding: 36px 25%;
+  }
    @media (max-width: 960px) {
     padding: 26px;
   }
@@ -48,6 +52,7 @@ const NewPostFeed = styled.div`
    padding: 26px;
    border-radius: 20px;
    box-shadow: 0px 3px 4px rgba(65, 40, 30, 0.25);
+   margin-bottom: 26px;
    @media (max-width: 960px) {
     width: 70%;
     padding: 20px;
@@ -58,6 +63,7 @@ const NewPostFeed = styled.div`
   }
 `;
 const BtnNewPost = styled.button`
+   cursor: pointer;
    margin-left: 20px;
    background-color: #F6F5F1;
    border-radius: 30px;
@@ -94,6 +100,10 @@ const IndexScreen = () => {
           <img src={Avatare} alt="Avatare user" />
           <BtnNewPost onClick={() => setShowLB(!ShowLB)} id="NewPost">Nouvelle publication</BtnNewPost>
         </NewPostFeed>
+        <PostCard img={Avatare} userName={"Edouard_Koffee"} datePosted={"Hier 23h 20"} commentPosted={"Hey folks!Have you ever tried Second Cup’s Coffee? I think it taste like 💩💩💩 hihi"} />
+        <PostCard img={Avatare} userName={"Edouard_Koffee"} datePosted={"Hier 23h 20"} commentPosted={"Hey folks!Have you ever tried Second Cup’s Coffee? I think it taste like 💩💩💩 hihi"} />
+        <PostCard img={Avatare} userName={"Edouard_Koffee"} datePosted={"Hier 23h 20"} commentPosted={"Hey folks!Have you ever tried Second Cup’s Coffee? I think it taste like 💩💩💩 hihi"} />
+        <PostCard img={Avatare} userName={"Edouard_Koffee"} datePosted={"Hier 23h 20"} commentPosted={"Hey folks!Have you ever tried Second Cup’s Coffee? I think it taste like 💩💩💩 hihi"} />
       </MainFeed>}
     </>
   )

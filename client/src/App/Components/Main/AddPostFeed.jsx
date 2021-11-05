@@ -14,6 +14,9 @@ const LightBox = styled.div`
    padding: 26px;
    top: 30%;
    border-radius: 20px;
+   @media (max-width: 503px) {
+    width: 70%;
+  }
 `;
 const LBFirstLing = styled.div`
    display: flex;
@@ -31,6 +34,10 @@ const BtnCloseLB = styled.button`
    height: 40px;
    width: 40px;
    margin-left: 170px;
+   @media (max-width: 503px) {
+    margin-left: 45px;
+    text-align: right;
+  }
    &:hover{
        background-color: #F6F5F1;
    }
@@ -74,6 +81,8 @@ const AddPostFeed = () => {
                 </LBFirstLing>
                 <FormLB method="get">
                     <CommentsText placeholder="| Que voulez-vous partager?" />
+                    <input type="uuid" hidden />
+                    <input type="date" hidden />
                     <ContainerBtnShareLB>
                         <BtnShareLB type="submit">Publier</BtnShareLB>
                     </ContainerBtnShareLB>
