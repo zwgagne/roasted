@@ -4,6 +4,7 @@ import LogoRCC from "../Buttons/LogoRCC";
 import ProfilIcons from "../Buttons/ProfilIcon";
 import MenuH from "../Buttons/MenuH";
 import { UserInfos } from "../../Contexts/UserInfos";
+import SearchUsers from "../Buttons/SearchUsers";
 
 const ContainerNav = styled.nav`
    display: flex;
@@ -24,6 +25,7 @@ const NavHeader = () => {
         <ContainerNav>
             <LogoRCC />
             <PositionNav>
+                {IsLoggedIn && <SearchUsers />}
                 {IsLoggedIn && <ProfilIcons />}
                 <MenuH />
             </PositionNav>

@@ -60,12 +60,12 @@ const UlNav = styled.ul`
 const DropDown = styled.div`
    position: absolute;
    top: inherit;
-   width: 165px;
+   width: 130px;
    transform: translateX(-90%);
    background-color: #EFEDE9;
    border: solid 1px #F0BB3C;
    border-radius: 8px;
-   padding: 1rem;
+   padding: 0.5rem;
    overflow: hidden;
 `
 const MenuItem = styled.button`
@@ -73,7 +73,7 @@ const MenuItem = styled.button`
    height: 50px;
    align-items: center;
    background-color: #EFEDE9;
-   font-size: 18px;
+   font-size: 14px;
    font-weight: bold;
    border: none;
    padding: 0px 15px;
