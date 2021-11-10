@@ -191,7 +191,7 @@ const RegisterScreen = ({ setAuth }) => {
                     </FormRegister>
                     <ContainerLogin>
                         <p>Déjà membre?</p>
-                        <LinkToLogin to="/">Connectez-vous</LinkToLogin>
+                        <LinkToLogin to="/login">Connectez-vous</LinkToLogin>
                     </ContainerLogin>
                 </SectionRegister>
             </MainRegister>
