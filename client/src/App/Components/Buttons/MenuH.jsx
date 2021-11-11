@@ -9,8 +9,17 @@ import { ReactComponent as Login } from "../../../Assets/Images/Icons/Login.svg"
 import { ReactComponent as HomePage } from "../../../Assets/Images/Icons/HomePage.svg";
 
 const BTNMenuHam = styled.div`
-   padding: 7px 0px;
+   padding: 10px 15px;
+   border-radius: 50px;
    cursor: pointer;
+   &:hover{
+       box-shadow: 0px 3px 4px rgba(65, 40, 30, 0.25);
+       //Have to Change this!
+   }
+   &:active{
+       box-shadow: inset 1px 2px 10px rgba(65, 40, 30, 0.15);
+       //Have to Change this!
+   }
 `;
 const ItemNavUser = styled.div`
    list-style-type: none;
@@ -23,7 +32,7 @@ const UlNav = styled.ul`
 `
 const DropDown = styled.div`
    position: absolute;
-   top: 75px;
+   top: 80px;
    right: -80px;
    width: 200px;
    transform: translateX(-40%);

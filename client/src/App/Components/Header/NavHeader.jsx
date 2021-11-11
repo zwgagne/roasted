@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import LogoRCC from "../Buttons/LogoRCC";
-import ProfilIcons from "../Buttons/ProfilIcon";
+import UserOption from "../Buttons/UserOption";
 import MenuH from "../Buttons/MenuH";
 import { UserInfos } from "../../Contexts/UserInfos";
 import SearchUsers from "../Buttons/SearchUsers";
@@ -26,7 +26,7 @@ const NavHeader = () => {
             <LogoRCC />
             <PositionNav>
                 {IsLoggedIn && <SearchUsers />}
-                {IsLoggedIn && <ProfilIcons />}
+                {IsLoggedIn && <UserOption />}
                 <MenuH />
             </PositionNav>
         </ContainerNav>

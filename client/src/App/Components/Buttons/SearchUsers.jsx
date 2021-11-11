@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SearchIcon from "../../../Assets/Images/Icons/Search_Icon.svg";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import {ReactComponent as Avatare} from "../../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
+import { ReactComponent as Avatare } from "../../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import BtnAddFriend from "./AddFriend";
 
 const InputSearch = styled.input`
@@ -40,11 +40,15 @@ const ResultUsers = styled(Link)`
    text-decoration: none;
    padding: 10px 15px;
    border-bottom: solid 2px;
+   &:hover{
+       background-color: #FFF6E5;
+       border-radius: 8px;
+   }
 `;
 const DropDown = styled.div`
    position: absolute;
    top: 85px;
-   right: -145px;
+   right: -69px;
    width: 270px;
    transform: translateX(-95%);
    background-color: #FFFCF7;
@@ -88,7 +92,7 @@ function NavUser(props) {
         <div>
             <FormSearch>
                 <IconSearch src={SearchIcon} onClick={() => setOpen(!open)} />
-                <InputSearch type="search" onClick={() => setOpen(!open)} />
+                <InputSearch type="search" onKeyUp={() => setOpen(true)} onClick={() => setOpen(false)} />
             </FormSearch>
             {open && props.children}
         </div>
@@ -108,8 +112,24 @@ function DropdownSearchUser() {
     }
     return (
         <DropDown>
-            <DropdownUser linkTo="/profil" Icon1={<Avatare />} > Edouard_Koffee <SpanAddFriend><BtnAddFriend GoTo="/" /></SpanAddFriend></DropdownUser>
-            <DropdownUser linkTo="/profil" Icon1={<Avatare />} > Edouard_Koffee <SpanAddFriend><BtnAddFriend GoTo="/" /></SpanAddFriend></DropdownUser>
+            <DropdownUser linkTo="/profil" Icon1={<Avatare />} >
+                Edouard_Koffee
+                <SpanAddFriend>
+                    <BtnAddFriend GoTo="/" />
+                </SpanAddFriend>
+            </DropdownUser>
+            <DropdownUser linkTo="/profil" Icon1={<Avatare />} >
+                Edouard_Koffee
+                <SpanAddFriend>
+                    <BtnAddFriend GoTo="/" />
+                </SpanAddFriend>
+            </DropdownUser>
+            <DropdownUser linkTo="/profil" Icon1={<Avatare />} >
+                Edouard_Koffee
+                <SpanAddFriend>
+                    <BtnAddFriend GoTo="/" />
+                </SpanAddFriend>
+            </DropdownUser>
         </DropDown>
     )
 }
