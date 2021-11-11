@@ -161,7 +161,7 @@ const ProfilScreen = () => {
             setServerMessage([])
             const res = await response.json();
             console.log(res)
-            setServerMessage( arr => [...arr, res])    
+            setServerMessage( arr => [...arr, res])
 
 
         } catch (err) {
