@@ -10,11 +10,19 @@ module.exports = {
       //1. Destructure the req.body
       const { name, email, password } = req.body;
 
-      //2. Check if user exists
+      //2. Check if user_email exists
       const user = await pgClient.query("SELECT * FROM users WHERE user_email = $1", [email]);
 
       if (user.rows.length !== 0) {
         return res.status(401).json("Ce email est utilisé par un autre buveur")
+      }
+
+
+      //2. Check if user_name exists
+      const userName = await pgClient.query("SELECT * FROM users WHERE user_name = $1", [name]);
+
+      if (userName.rows.length !== 0) {
+        return res.status(401).json("Ce nom est utilisé par un autre buveur")
       }
 
       //3. Bcrypt

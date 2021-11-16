@@ -143,12 +143,12 @@ const EditProfil = () => {
         <>
             <SectionRegister>
                 <FormProfil onSubmit={onSubmitForm}>
+                        <Messages serverMessage={serverMessage} />
                     <LabelInputProfil htmlFor="profilFieldUserName">Nom d'utilisateur</LabelInputProfil>
                     <InputProfil id="profilFieldUserName" name="name" type="text" value={name} onChange={e => onChange(e)} />
                     <SpanProfil>{email}</SpanProfil>
                     <ContainerEditBtnProfil>
                         <BtnEditInfoProfil type="submit">Enregistrer</BtnEditInfoProfil>
-                        <Messages serverMessage={serverMessage} />
                     </ContainerEditBtnProfil>
                 </FormProfil>
             </SectionRegister>

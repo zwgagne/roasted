@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import Avatare from "../../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import styled from "styled-components";
 import { LightBoxNewPost } from "../../Contexts/LightBoxNewPost";
@@ -67,10 +67,39 @@ const BtnShareLB = styled.button`
    padding: 15px 60px;
    border: none;
    border-radius: 40px;
+   cursor: pointer;
 `;
 
 const AddPostFeed = () => {
-    const { setShowLB } = useContext(LightBoxNewPost)
+    const { setShowLB } = useContext(LightBoxNewPost);
+    const [inputs, setInputs] = useState({ content: "" });
+    const { content } = inputs;
+    const onChange = (e) => {
+        setInputs({...inputs, [e.target.name] : e.target.value });
+      };
+
+    const onSubmitForm = async (e) => {
+        e.preventDefault();
+        if (content == ""){
+            return
+        }
+
+        try {
+            const body = { content };
+            await fetch("http://localhost:5000/posts/create", {
+                method: "POST",
+                headers: {
+                    token: localStorage.token,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+            setShowLB(false)
+        } catch (err) {
+            console.error(err.message)
+        }
+    }
+
     return (
         <>
             <LightBox>
@@ -79,12 +108,10 @@ const AddPostFeed = () => {
                     <UserNameLB>Edouard_Koffee</UserNameLB>
                     <BtnCloseLB onClick={() => setShowLB(false)} >X</BtnCloseLB>
                 </LBFirstLing>
-                <FormLB method="get">
-                    <CommentsText placeholder="| Que voulez-vous partager?" />
-                    <input type="uuid" hidden />
-                    <input type="date" hidden />
+                <FormLB onSubmit={onSubmitForm}>
+                    <CommentsText id="postContent" name="content" onChange={e => onChange(e)} value={content} placeholder="| Que voulez-vous partager?" />
                     <ContainerBtnShareLB>
-                        <BtnShareLB type="submit">Publier</BtnShareLB>
+                        <BtnShareLB type="submit" >Publier</BtnShareLB>
                     </ContainerBtnShareLB>
                 </FormLB>
             </LightBox>

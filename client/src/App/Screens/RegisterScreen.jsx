@@ -138,7 +138,6 @@ const RegisterScreen = ({ setAuth }) => {
           const status = await response.status;
           const res = await response.json()
            setServerMessage([])
-          console.log(status)
           if (status !== 200) {
              setAuth(false);
              setServerMessage( arr => [...arr, res])
@@ -170,12 +169,12 @@ const RegisterScreen = ({ setAuth }) => {
                 <SectionRegister>
                     <h3>Joignez-vous au Club!</h3>
                     <FormRegister onSubmit={onSubmitForm}>
+                        <Messages serverMessage={serverMessage} />
                         <LabelInputRegister htmlFor="RegisterFieldUserName">Nom d'utilisateur</LabelInputRegister>
                         <InputRegister id="RegisterFieldUserName" name="name" type="text" value={name} placeholder="Entrez votre nom d’utilisateur" onChange={e => onChange(e)} required />
 
                         <LabelInputRegister htmlFor="RegisterFieldEmail">Adresse courriel</LabelInputRegister>
                         <InputRegister id="RegisterFieldEmail" name="email" type="email" value={email} placeholder="votre@email.com" onChange={e => onChange(e)} required />
-                        <Messages serverMessage={serverMessage} />
 
                         <LabelInputRegister id="labelPw" htmlFor="RegisterFieldPassword">Mot de passe</LabelInputRegister>
                         <InputRegister id="RegisterFieldPassword" name="password" type="password" value={password} onChange={e => onChange(e)} required />
