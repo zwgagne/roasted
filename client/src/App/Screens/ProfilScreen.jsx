@@ -1,121 +1,111 @@
 import React, { useState, useEffect } from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
-import DefaultAvatar from "../../Assets/Images/Icons/AvatarDefault.svg"
+import Avatare from "../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import Messages from "../Components/Buttons/Messages";
+import PostCard from "../Components/Main/PostCard";
+import EditProfil from "../Components/Main/EditProfil";
+import { ReactComponent as Ecommercial } from "../../Assets/Images/Icons/Ecommercial.svg";
+import { ReactComponent as EditIcon } from "../../Assets/Images/Icons/Edit.svg";
 
 const MainProfil = styled.main`
    display: flex;
+   flex-wrap: wrap;
    justify-content: center;
    @media (max-width: 960px) {
     padding: 26px;
   }
 `;
-const SectionRegister = styled.section`
+const ContainerCard = styled.section`
+   background-color: #FFFCF7;
    display: flex;
-   justify-content: left;
    flex-wrap: wrap;
-   width: 40%;
+   justify-content: space-evenly;
+   margin: 56px 0px 48px 0px;
+   width: 866px;
+   padding: 50px 26px;
+   border-radius: 20px;
+   box-shadow: 0px 3px 4px rgba(65, 40, 30, 0.25);
    @media (max-width: 960px) {
+    width: 70%;
+    padding: 20px;
+    justify-content: left;
+  }
+  @media (max-width: 660px) {
     width: 100%;
+    padding: 20px;
   }
 `;
-const Heading3 = styled.h3`
-   width: 100%;
-`
-const BGAvatar = styled.div`
-   background-color: #F7F7F7;
-   border: solid 1px #000000;
-   width: 100px;
-   height: 100px;
-   border-radius: 50px;
+
+const ArticleUserAction = styled.article`
    display: flex;
-   justify-content: center;
-   margin-bottom: 24px;
+   flex-wrap: wrap;
+`
+
+const ContainerSpan1 = styled.span`
+   margin-left: 18px;
+   display: flex;
+   flex-wrap: wrap;
+   width: 300px;
+   @media (max-width: 960px) {
+       width: 50%;
+  }
+`
+
+const SpanUserName = styled.span`
+   font-size: 32px;
+   margin-left: 10px;
+   width: 80%;
+   @media (max-width: 960px) {
+       width: 50%;
+  }
+`
+const AvatareUser = styled.img`
+   width: 90px;
 `;
-const ImgAvatarSize = styled.img`
-   width: 50%;
+
+const ArticleUserStats = styled.div`
+   border-left: 2px solid #EEDDBE;
+   @media (max-width: 960px) {
+       margin-top: 40px;  
+    }
 `;
-const FormProfil = styled.form`
-   margin-top: 24px;
+
+const SpanStatUserNum = styled.div`
+   font-size: 44px;
+   font-weight: bold;
+   margin-left: 20px;
+   margin-right: 17px;
 `;
-const LabelInputProfil = styled.label`
-   width: 100%;
+const SpanStatTitle = styled.div`
+   font-size: 16px;
+   align-self: center;
+`;
+const DivContainerStatInfo = styled.div`
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-evenly;
+`;
+const EditProfilBtn = styled.button`
+   background-color: #EEDDBE;
+   padding: 10px 15px;
+   border-radius: 40px;
+   border: none;
+   cursor: pointer;
+   &:hover{
+       background-color: #f3e9d7;
+   }
+`;
+const NameButton = styled.span`
    font-size: 16px;
    font-weight: bold;
+   margin-left: 10px;
 `;
-const SpanProfil = styled.span`
-width: 100%;
-font-size: 16px;
-font-weight: bold;
-`;
-const InputProfil = styled.input`
-width: 100%;
-background-color: transparent;
-border: none;
-border-bottom: solid 1px #000000;
-margin-top: 4px;
-margin-bottom: 14px;
-padding-top: 10px;
-padding-bottom: 10px;
-font-size: 16px;
-color: #B6B6B6;
-padding-left: 10px;
-&:active, :hover, :focus{
-    border: none;
-    border-bottom: solid 1px #E7D0A7;
-    outline: none;
-    transition: all 0.2s ease;
- &:active, :focus {
-   background-color: #FFFCF6;
-   color: #211D1A;
-   transition: all 0.2s ease;
-
-
- }
-}
-`;
-const ContainerEditBtnProfil = styled.div`
-   margin-top: 176px;
-   text-align: center;
-   @media (max-width: 960px) {
-    margin-top: 106px;
-  }
-`
-const BtnEditInfoProfil = styled.button`
-background-color: #E7D0A7;
-text-decoration: none;
-font-size: 18px;
-font-weight: bold;
-font-family: 'Roboto', sans-serif;
-border: none;
-padding: 15px 60px;
-border-radius: 40px;
-&:hover {
-  background-color: #EEDDBE;
-  box-shadow: 0px 3px 4px rgba(65, 40, 30, 0.25);
-  transition: all 0.2s ease;
-}
-&:active {
- background: #E7D0A7;
- box-shadow: inset 1px 2px 10px rgba(65, 40, 30, 0.15);
- transition: all 0.2s ease;
-}
-&:disabled {
- background: #EAE8E3;
- color: #8B8B85;
-}
-&:visited {
-  color: inherit;
-}
-`;
-
 
 const ProfilScreen = () => {
-
-    const [serverMessage, setServerMessage] = useState([])
-    const [inputs, setInputs] = useState({ email: "", name: "" })
-    const { name, email } = inputs;
+    const [Edit, SetEdit] = useState(false)
+    const [inputs, setInputs] = useState({ name: "" })
+    const { name } = inputs;
 
     async function getUserInfo() {
         try {
@@ -139,54 +129,37 @@ const ProfilScreen = () => {
         getUserInfo()
     }, [])
 
-
-
-    const onChange = (e) => {
-        setInputs({ ...inputs, [e.target.name]: e.target.value });
-    };
-
-    const onSubmitForm = async (e) => {
-        e.preventDefault();
-
-        try {
-            const body = { name };
-            const response = await fetch("http://localhost:5000/profile/edit", {
-                method: "POST",
-                headers: {
-                    token: localStorage.token,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            });
-            setServerMessage([])
-            const res = await response.json();
-            console.log(res)
-            setServerMessage( arr => [...arr, res])
-
-
-        } catch (err) {
-            console.error(err.message)
-        }
-    }
     return (
         <>
             <NavHeader />
             <MainProfil>
-                <SectionRegister>
-                    <Heading3>Profil</Heading3>
-                    <BGAvatar>
-                        <ImgAvatarSize src={DefaultAvatar} alt="Avatar profil" />
-                    </BGAvatar>
-                    <FormProfil onSubmit={onSubmitForm}>
-                        <LabelInputProfil htmlFor="profilFieldUserName">Nom d'utilisateur</LabelInputProfil>
-                        <InputProfil id="profilFieldUserName" name="name" type="text" value={name} onChange={e => onChange(e)} />
-                        <SpanProfil>{email}</SpanProfil>
-                        <ContainerEditBtnProfil>
-                            <BtnEditInfoProfil type="submit">Modifier</BtnEditInfoProfil>
-                            <Messages serverMessage={serverMessage} />
-                        </ContainerEditBtnProfil>
-                    </FormProfil>
-                </SectionRegister>
+                <ContainerCard>
+                    <ArticleUserAction>
+                        <AvatareUser src={Avatare} />
+                        <ContainerSpan1>
+                            <Ecommercial />
+                            <SpanUserName>{name}</SpanUserName>
+                            <EditProfilBtn onClick={() => SetEdit(!Edit)}>
+                                <EditIcon />
+                                <NameButton>Édit Profile</NameButton>
+                            </EditProfilBtn>
+                        </ContainerSpan1>
+                    </ArticleUserAction>
+                    <ArticleUserStats>
+                        <div>
+                            <DivContainerStatInfo>
+                                <SpanStatUserNum>29</SpanStatUserNum>
+                                <SpanStatTitle>Publications</SpanStatTitle>
+                            </DivContainerStatInfo>
+                            <DivContainerStatInfo>
+                                <SpanStatUserNum>123</SpanStatUserNum>
+                                <SpanStatTitle>Bean Buddies</SpanStatTitle>
+                            </DivContainerStatInfo>
+                        </div>
+                    </ArticleUserStats>
+                    {Edit && <EditProfil />}
+                </ContainerCard>
+                <PostCard img={Avatare} userName={"Edouard_Koffee"} datePosted={"Hier 23h 20"} commentPosted={"Hey folks!Have you ever tried Second Cup’s Coffee? I think it taste like 💩💩💩 hihi"} />
             </MainProfil>
         </>
     )
