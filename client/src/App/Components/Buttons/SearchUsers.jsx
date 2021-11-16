@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { ReactComponent as Avatare } from "../../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import BtnAddFriend from "./AddFriend";
+import AddFriendIcon from "../../../Assets/Images/Icons/Add_Friend_Icon.svg"
 
 const InputSearch = styled.input`
    width: 300px;
@@ -15,6 +16,9 @@ const InputSearch = styled.input`
    border: none;
    font-size: 16px;
    padding: 13px 13px 13px 50px;
+   @media (max-width: 796px) {
+       width: 350px;
+    }
 `;
 
 const FormSearch = styled.form`
@@ -48,7 +52,7 @@ const ResultUsers = styled(Link)`
 const DropDown = styled.div`
    position: absolute;
    top: 85px;
-   right: -69px;
+   right: -84px;
    width: 270px;
    transform: translateX(-95%);
    background-color: #FFFCF7;
@@ -56,16 +60,35 @@ const DropDown = styled.div`
    border-radius: 8px;
    padding: 1rem;
    overflow: hidden;
+   @media (max-width: 796px) {
+       position: inherit;
+       top: 0px;
+       right: 0px;
+       width: 80%;
+       transform: translateX(0%);
+    }
 `;
 const SpanIconUser = styled.span`
    margin-right: 10px;
+   @media (max-width: 796px) {
+       
+    }
 `;
 const SpanAddFriend = styled.span`
    display: flex;
    justify-content: right;
-   margin-left: 15px;
+   margin-left: 2px;
    width: 70%;
-`
+   @media (max-width: 796px) {
+       display: none;
+    }
+`;
+const DivContainer = styled.div`
+   @media (max-width: 796px) {
+
+  }
+`;
+
 
 const SearchUsers = () => {
     return (
@@ -81,9 +104,9 @@ const SearchUsers = () => {
 
 function SectionUsers(props) {
     return (
-        <div>
+        <DivContainer>
             <UlNav>{props.children}</UlNav>
-        </div>
+        </DivContainer>
     );
 }
 function NavUser(props) {
@@ -106,30 +129,18 @@ function DropdownSearchUser() {
                     <SpanIconUser>{props.Icon1}</SpanIconUser>
                     {props.children}
                     <SpanIconUser>{props.AddFriend}</SpanIconUser>
+                    <SpanAddFriend>
+                        <BtnAddFriend to={props.GoTo} icon={AddFriendIcon} />
+                    </SpanAddFriend>
                 </ResultUsers>
             </>
         )
     }
     return (
         <DropDown>
-            <DropdownUser linkTo="/profil" Icon1={<Avatare />} >
-                Edouard_Koffee
-                <SpanAddFriend>
-                    <BtnAddFriend GoTo="/" />
-                </SpanAddFriend>
-            </DropdownUser>
-            <DropdownUser linkTo="/profil" Icon1={<Avatare />} >
-                Edouard_Koffee
-                <SpanAddFriend>
-                    <BtnAddFriend GoTo="/" />
-                </SpanAddFriend>
-            </DropdownUser>
-            <DropdownUser linkTo="/profil" Icon1={<Avatare />} >
-                Edouard_Koffee
-                <SpanAddFriend>
-                    <BtnAddFriend GoTo="/" />
-                </SpanAddFriend>
-            </DropdownUser>
+            <DropdownUser linkTo="/profil" Icon1={<Avatare />} GoTo="/">Edouard_Koffee</DropdownUser>
+            <DropdownUser linkTo="/profil" Icon1={<Avatare />} GoTo="/">Mettre UserName ici</DropdownUser>
+            <DropdownUser linkTo="/profil" Icon1={<Avatare />} GoTo="/">Edouard_Koffee</DropdownUser>
         </DropDown>
     )
 }

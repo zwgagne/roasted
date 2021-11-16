@@ -17,7 +17,13 @@ const ContainerNav = styled.nav`
 `;
 const PositionNav = styled.div`
    display: flex;
-`
+`;
+const DivContainer = styled.div`
+   display: flex;
+   @media (max-width: 796px) {
+       display: none;
+  }
+`;
 
 const NavHeader = () => {
     const { IsLoggedIn } = useContext(UserInfos)
@@ -25,8 +31,12 @@ const NavHeader = () => {
         <ContainerNav>
             <LogoRCC />
             <PositionNav>
-                {IsLoggedIn && <SearchUsers />}
-                {IsLoggedIn && <UserOption />}
+                {IsLoggedIn && <DivContainer>
+                    <SearchUsers />
+                </DivContainer>}
+                {IsLoggedIn && <DivContainer>
+                    <UserOption />
+                </DivContainer>}
                 <MenuH />
             </PositionNav>
         </ContainerNav>

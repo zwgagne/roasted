@@ -1,5 +1,4 @@
 import React from "react";
-import { ReactComponent as AddFriend } from "../../../Assets/Images/Icons/Add_Friend_Icon.svg";
 import styled from "styled-components";
 
 const AddFriendLink = styled.button`
@@ -11,12 +10,18 @@ const AddFriendLink = styled.button`
    &:hover{
        background-color: #f3e9d7;
    }
+`;
+const NameButton = styled.span`
+   font-size: 16px;
+   font-weight: bold;
+   margin-left: 10px;
 `
 
 const BtnAddFriend = (props) => {
     return (
         <AddFriendLink to={props.GoTo}>
-            <AddFriend />
+            <img src={props.icon} alt="Icon call to action" />
+            <NameButton>{props.NameBtn}</NameButton>
         </AddFriendLink>
     )
 }

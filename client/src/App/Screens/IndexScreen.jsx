@@ -8,6 +8,7 @@ import AddPostFeed from "../Components/Main/AddPostFeed";
 import Avatare from "../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import { LightBoxNewPost } from "../Contexts/LightBoxNewPost";
 import PostCard from "../Components/Main/PostCard";
+import SearchUsers from "../Components/Buttons/SearchUsers";
 
 const MainIndex = styled.main`
    display: flex;
@@ -92,9 +93,11 @@ const IndexScreen = () => {
         </LightBoxNewPostOver>}
       </LightBoxNewPost.Provider>
       <NavHeader />
+
       {!IsLoggedIn && <MainIndex>
         <SubUser />
       </MainIndex>}
+
       {IsLoggedIn && <MainFeed>
         <NewPostFeed>
           <img src={Avatare} alt="Avatare user" />

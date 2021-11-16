@@ -2,23 +2,28 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components"
 import { Link } from "react-router-dom";
 import { UserInfos } from "../../Contexts/UserInfos";
-import { ReactComponent as MenuIcon } from "../../../Assets/Images/Icons/MenuHamberger.svg";
-//import { ReactComponent as CloseMenu } from "../../../Assets/Images/Icons/close.svg";
 import { ReactComponent as Logout } from "../../../Assets/Images/Icons/Logout.svg";
+import { ReactComponent as MyProfil } from "../../../Assets/Images/Icons/MyProfil.svg";
 import { ReactComponent as Login } from "../../../Assets/Images/Icons/Login.svg";
-import { ReactComponent as HomePage } from "../../../Assets/Images/Icons/HomePage.svg";
+import { ReactComponent as SearchIcon } from "../../../Assets/Images/Icons/Search_Icon.svg";
+import { ReactComponent as Avatare } from "../../../Assets/Images/Icons/Avatare2.svg";
+import SearchUsers from "../Buttons/SearchUsers";
+import UserOptionMobil from "./UserOptionMobil"
+import BtnMenu from "./BtnMenu";
 
 const BTNMenuHam = styled.div`
    padding: 10px 15px;
    border-radius: 50px;
+   width: 50%;
    cursor: pointer;
+   align-self: center;
+   border-radius: 50px;
    &:hover{
        box-shadow: 0px 3px 4px rgba(65, 40, 30, 0.25);
-       //Have to Change this!
+       background-color: #EEDDBE;
    }
    &:active{
        box-shadow: inset 1px 2px 10px rgba(65, 40, 30, 0.15);
-       //Have to Change this!
    }
 `;
 const ItemNavUser = styled.div`
@@ -41,6 +46,11 @@ const DropDown = styled.div`
    border-radius: 8px;
    padding: 1rem;
    overflow: hidden;
+   @media (max-width: 796px) {
+       right: -40px;
+       transform: translateX(-18%);
+       width: 80%;
+    }
 `
 const MenuItem = styled(Link)`
    display: flex;
@@ -54,16 +64,24 @@ const MenuItem = styled(Link)`
        background-color: #444440;
        border-radius: 8px;
    }
-`
+`;
+const SpanIconAvatare = styled.span`
+   height: 50px;
+`;
 const SpanIconItem = styled.span`
    margin-right: 10px;
-`
+`;
+const DisplayMobil = styled.span`
+   @media (min-width: 797px) {
+       display: none;
+    }
+`;
 
 const MenuH = () => {
     return (
         <BTNMenuHam>
             <NavbarProfil>
-                <NavItem icon={<MenuIcon />} >
+                <NavItem icon={<BtnMenu />} >
                     <DropdownProfilMenu />
                 </NavItem>
             </NavbarProfil>
@@ -92,6 +110,8 @@ function NavItem(props) {
 }
 function DropdownProfilMenu() {
     const { IsLoggedIn, setIsLoggedIn } = useContext(UserInfos)
+    const [open, setOpen] = useState(false);
+    const [openF, setOpenF] = useState(false);
     const logout = e => {
         e.preventDefault();
         localStorage.removeItem("token");
@@ -101,6 +121,7 @@ function DropdownProfilMenu() {
         return (
             <>
                 <MenuItem to={props.linkTo}>
+                    <SpanIconAvatare>{props.Avatare}</SpanIconAvatare>
                     <SpanIconItem>{props.Icon1}</SpanIconItem>
                     {props.children}
                     <SpanIconItem>{props.Icon2}</SpanIconItem>
@@ -109,11 +130,20 @@ function DropdownProfilMenu() {
         )
     }
     return (
-        <DropDown>
-            <DropdownItem linkTo="/" Icon1={<HomePage />}> Accueil</DropdownItem>
-            {!IsLoggedIn && <DropdownItem linkTo="/login" Icon1={<Login />}> Connexion</DropdownItem>}
-            {IsLoggedIn && <DropdownItem linkTo="/" Icon1={<Logout />}><span onClick={e => logout(e)}>Déconnexion</span> </DropdownItem>}
-        </DropDown>
+        <>
+            <DropDown>
+                {IsLoggedIn && <DropdownItem linkTo="/profil" Avatare={<Avatare />}>Mon Profile</DropdownItem>}
+                {!IsLoggedIn && <DropdownItem linkTo="/login" Icon1={<Login />}> Connexion</DropdownItem>}
+                <DisplayMobil>
+                    {IsLoggedIn && <DropdownItem linkTo="?" Icon1={<MyProfil />}><span onClick={() => setOpenF(!openF)}>Bean buddies</span></DropdownItem>}
+                    {openF && <UserOptionMobil />}
+
+                    {IsLoggedIn && <DropdownItem linkTo="?" Icon1={<SearchIcon />}><span onClick={() => setOpen(!open)}>Recherche</span></DropdownItem>}
+                    {open && <SearchUsers />}
+                </DisplayMobil>
+                {IsLoggedIn && <DropdownItem linkTo="/" Icon1={<Logout />}><span onClick={e => logout(e)}>Déconnexion</span> </DropdownItem>}
+            </DropDown>
+        </>
     )
 }
 
