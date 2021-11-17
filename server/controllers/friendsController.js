@@ -95,7 +95,7 @@ module.exports = {
       res.status(500).json("Server error");
     }
   },
-  
+
   getAllFriendsPosts: async (req, res) => {
     try {
       const user = await pgClient.query("SELECT user_friends FROM users WHERE user_id = $1", [req.user]);
@@ -111,24 +111,17 @@ module.exports = {
     }
   },
 
-    searchFriend: async (req, res) => {
+  searchFriend: async (req, res) => {
     try {
-//1. Autocomplete user_name of user_name entered
-      const { friendName } = req.body;
+      console.log(req);
+      const friendName = req.params.userName;
       const user = await pgClient.query("SELECT user_name FROM users WHERE user_name LIKE $1", [`%${friendName}%`]);
-      const userName = user.rows;
-      res.status(200).json(userName)
+      res.status(200).json({usernames: user.rows})
     } catch (err) {
       console.error(err.message)
       res.status(500).json("Server error");
     } 
 
-      res.status(200).json(users)
-
-    } catch (err) {
-      console.error(err.message)
-      res.status(500).json("Server error");
-    }
   }
 
 }

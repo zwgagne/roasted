@@ -26,7 +26,16 @@ module.exports = {
       res.status(500).json("Server error");
     }
   },
-
+  // get a user's profile
+  getUserProfile: async (req, res) => {
+    try {
+      const user = await pgClient.query("SELECT user_name, user_email FROM users WHERE user_id = $1", [req.params.id]);
+      res.json(user.rows[0])
+    } catch (err) {
+      console.error(err.message)
+      res.status(500).json("Server error");
+    }
+  },
 
   saveChanges: async (req, res) => {
     try {
