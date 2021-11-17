@@ -90,7 +90,7 @@ const SpanIconItem = styled.span`
 const PostCard = (props) => {
     return (
         <>
-            <ContainerCard>
+            <ContainerCard> 
                 <HeaderCard>
                     <HeaderContainerCard>
                         <img src={props.img} alt="Avatare" />

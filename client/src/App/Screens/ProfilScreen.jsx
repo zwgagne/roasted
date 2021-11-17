@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import Avatare from "../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
-import Messages from "../Components/Buttons/Messages";
 import PostCard from "../Components/Main/PostCard";
 import EditProfil from "../Components/Main/EditProfil";
 import { ReactComponent as Ecommercial } from "../../Assets/Images/Icons/Ecommercial.svg";
@@ -105,6 +104,7 @@ const NameButton = styled.span`
 const ProfilScreen = () => {
     const [Edit, SetEdit] = useState(false)
     const [inputs, setInputs] = useState({ name: "" })
+    const [posts, setPosts] = useState([]);
     const { name } = inputs;
 
     async function getUserInfo() {
@@ -126,8 +126,23 @@ const ProfilScreen = () => {
     }
 
     useEffect(() => {
-        getUserInfo()
+        getUserInfo();
+        getUserPosts();
     }, [])
+
+    async function getUserPosts() {
+        try {
+            const response = await fetch("http://localhost:5000/posts/user-posts", {
+                method: "GET",
+                headers: { token: localStorage.token }
+            });
+
+            const parseRes = await response.json();
+            setPosts(parseRes.rows);
+        } catch (err) {
+            console.error(err.message)
+        }
+    }
 
     return (
         <>
@@ -159,7 +174,9 @@ const ProfilScreen = () => {
                     </ArticleUserStats>
                     {Edit && <EditProfil />}
                 </ContainerCard>
-                <PostCard img={Avatare} userName={"Edouard_Koffee"} datePosted={"Hier 23h 20"} commentPosted={"Hey folks!Have you ever tried Second Cup’s Coffee? I think it taste like 💩💩💩 hihi"} />
+                {posts.map((post) => (
+                    <PostCard key={post.post_id} img={Avatare} userName={post.user_name} datePosted={post.created_at.slice(0, 10)} commentPosted={post.post_content} />
+                ))}
             </MainProfil>
         </>
     )
