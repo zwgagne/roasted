@@ -16,9 +16,7 @@ module.exports = {
 
   getEditProfilePage: async (req, res) => {
     try {
-
       const user = await pgClient.query("SELECT user_name, user_email FROM users WHERE user_id = $1", [req.user]);
-
       res.json(user.rows[0])
 
     } catch (err) {

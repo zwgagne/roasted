@@ -156,7 +156,7 @@ const ProfilScreen = () => {
                             <SpanUserName>{name}</SpanUserName>
                             <EditProfilBtn onClick={() => SetEdit(!Edit)}>
                                 <EditIcon />
-                                <NameButton>Modifier le profil</NameButton>
+                                <NameButton>Édit Profile</NameButton>
                             </EditProfilBtn>
                         </ContainerSpan1>
                     </ArticleUserAction>
