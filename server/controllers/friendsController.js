@@ -113,17 +113,46 @@ module.exports = {
     }
   },
 
-
-  searchFriend: async (req, res) => {
+  getAllFriends: async (req, res) => {
     try {
-
-      const users = await pgClient.query("SELECT user_name FROM users");
-      res.status(200).json(users)
-
+      const user = await pgClient.query("SELECT user_friends FROM users WHERE user_id = $1", [req.user]);
+      const friends = user.rows[0].user_friends;
+      if (friends === null) {
+        return res.status(200).json("Vous n'avez pas d'amis")
+      }
+      res.status(200).json(friends)
     } catch (err) {
       console.error(err.message)
       res.status(500).json("Server error");
     }
+  },
+
+  getAllFriendsPosts: async (req, res) => {
+    try {
+      const user = await pgClient.query("SELECT user_friends FROM users WHERE user_id = $1", [req.user]);
+      const friends = user.rows[0].user_friends;
+      if (friends === null) {
+        return res.status(200).json("Vous n'avez pas d'amis")
+      }
+      const posts = await pgClient.query("SELECT * FROM posts WHERE user_name = ANY($1)", [friends]);
+      res.status(200).json(posts.rows)
+    } catch (err) {
+      console.error(err.message)
+      res.status(500).json("Server error");
+    }
+  },
+
+  searchFriend: async (req, res) => {
+    try {
+      console.log(req);
+      const friendName = req.params.userName;
+      const user = await pgClient.query("SELECT user_name FROM users WHERE user_name LIKE $1", [`%${friendName}%`]);
+      res.status(200).json({usernames: user.rows})
+    } catch (err) {
+      console.error(err.message)
+      res.status(500).json("Server error");
+    } 
+
   }
 
 }

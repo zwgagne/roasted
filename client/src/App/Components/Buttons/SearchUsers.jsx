@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchIcon from "../../../Assets/Images/Icons/Search_Icon.svg";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -91,11 +91,35 @@ const DivContainer = styled.div`
 
 
 const SearchUsers = () => {
+    const [usernames, setUsernames] = useState([]);
+    const [open, setOpen] = useState(false);
+    async function fetchFriends(e) {
+        const userName = e.target.value;
+        if (userName !== '') {
+            try {
+                const body = {friendName : userName };
+                const response = await fetch(`http://localhost:5000/friends/search-friend/${userName}`, {
+                    method: "GET",
+                    header: {"Content-Type": "application/json"},
+                });
+                const res = await response.json();
+                setUsernames(res.usernames)
+                setOpen(true)
+            } catch (err) {
+                console.log(err.message)
+            }
+        }
+    }
     return (
         <>
             <SectionUsers>
-                <NavUser>
-                    <DropdownSearchUser />
+                <NavUser 
+                onKeyUp={(e) => fetchFriends(e)} 
+                open={open} 
+                onIconClick={() => setOpen(!open)} 
+                onInputClick={() => setOpen(false)}
+                >
+                    <DropdownSearchUser usernames={usernames}/>
                 </NavUser>
             </SectionUsers>
         </>
@@ -110,18 +134,17 @@ function SectionUsers(props) {
     );
 }
 function NavUser(props) {
-    const [open, setOpen] = useState(false);
     return (
         <div>
             <FormSearch>
-                <IconSearch src={SearchIcon} onClick={() => setOpen(!open)} />
-                <InputSearch type="search" onKeyUp={() => setOpen(true)} onClick={() => setOpen(false)} />
+                <IconSearch src={SearchIcon} onClick={props.onIconClick} />
+                <InputSearch name="userName" type="search" onKeyUp={props.onKeyUp} onClick={props.onInputClick} />
             </FormSearch>
-            {open && props.children}
+            {props.open && props.children}
         </div>
     );
 }
-function DropdownSearchUser() {
+function DropdownSearchUser(props) {
     function DropdownUser(props) {
         return (
             <>
@@ -138,9 +161,11 @@ function DropdownSearchUser() {
     }
     return (
         <DropDown>
-            <DropdownUser linkTo="/profil" Icon1={<Avatare />} GoTo="/">Edouard_Koffee</DropdownUser>
-            <DropdownUser linkTo="/profil" Icon1={<Avatare />} GoTo="/">Mettre UserName ici</DropdownUser>
-            <DropdownUser linkTo="/profil" Icon1={<Avatare />} GoTo="/">Edouard_Koffee</DropdownUser>
+            {props.usernames.map((username) => (
+                <DropdownUser linkTo="/profil" Icon1={<Avatare />} GoTo="/profil">
+                 {username.user_name}
+                </DropdownUser>
+            ))}
         </DropDown>
     )
 }
