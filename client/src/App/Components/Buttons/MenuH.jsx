@@ -132,7 +132,7 @@ function DropdownProfilMenu() {
     return (
         <>
             <DropDown>
-                {IsLoggedIn && <DropdownItem linkTo="/profil" Avatare={<Avatare />}>Mon Profile</DropdownItem>}
+                {IsLoggedIn && <DropdownItem linkTo="/profil" Avatare={<Avatare />}>Mon Profil</DropdownItem>}
                 {!IsLoggedIn && <DropdownItem linkTo="/login" Icon1={<Login />}> Connexion</DropdownItem>}
                 <DisplayMobil>
                     {IsLoggedIn && <DropdownItem linkTo="?" Icon1={<MyProfil />}><span onClick={() => setOpenF(!openF)}>Bean buddies</span></DropdownItem>}

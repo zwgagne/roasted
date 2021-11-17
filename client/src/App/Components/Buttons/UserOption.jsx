@@ -115,7 +115,7 @@ function DropdownAllFriend() {
     return (
         <>
             <DropDown>
-                <TitleFriends>Bean Duddies</TitleFriends>
+                <TitleFriends>Bean Buddies</TitleFriends>
                 <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
                 <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
                 <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
