@@ -6,11 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@prisma/client": "^3.5.0",
-=======
-    "@prisma/client": "^3.4.2",
->>>>>>> main
     "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
@@ -24,10 +20,6 @@
     "pg": "^8.7.1"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "prisma": "^3.5.0"
-=======
-    "prisma": "^3.4.2"
->>>>>>> main
   }
 }
