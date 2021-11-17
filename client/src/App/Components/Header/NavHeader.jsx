@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import LogoRCC from "../Buttons/LogoRCC";
-import ProfilIcons from "../Buttons/ProfilIcon";
+import UserOption from "../Buttons/UserOption";
 import MenuH from "../Buttons/MenuH";
 import { UserInfos } from "../../Contexts/UserInfos";
+import SearchUsers from "../Buttons/SearchUsers";
 
 const ContainerNav = styled.nav`
    display: flex;
@@ -16,7 +17,13 @@ const ContainerNav = styled.nav`
 `;
 const PositionNav = styled.div`
    display: flex;
-`
+`;
+const DivContainer = styled.div`
+   display: flex;
+   @media (max-width: 796px) {
+       display: none;
+  }
+`;
 
 const NavHeader = () => {
     const { IsLoggedIn } = useContext(UserInfos)
@@ -24,7 +31,12 @@ const NavHeader = () => {
         <ContainerNav>
             <LogoRCC />
             <PositionNav>
-                {IsLoggedIn && <ProfilIcons />}
+                {IsLoggedIn && <DivContainer>
+                    <SearchUsers />
+                </DivContainer>}
+                {IsLoggedIn && <DivContainer>
+                    <UserOption />
+                </DivContainer>}
                 <MenuH />
             </PositionNav>
         </ContainerNav>
