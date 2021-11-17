@@ -80,7 +80,7 @@ const AddPostFeed = () => {
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
-        if (content == ""){
+        if (content === ""){
             return
         }
 

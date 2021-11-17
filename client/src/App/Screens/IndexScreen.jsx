@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "../../Assets/scss/index.scss";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
@@ -85,6 +85,26 @@ const BtnNewPost = styled.button`
 const IndexScreen = () => {
   const { IsLoggedIn } = useContext(UserInfos)
   const [ShowLB, setShowLB] = useState(false)
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    getUserPosts();
+}, [])
+
+async function getUserPosts() {
+    try {
+        const response = await fetch("http://localhost:5000/posts/user-posts", {
+            method: "GET",
+            headers: { token: localStorage.token }
+        });
+
+        const parseRes = await response.json();
+        setPosts(parseRes.rows);
+    } catch (err) {
+        console.error(err.message)
+    }
+}
+
   return (
     <>
       <LightBoxNewPost.Provider value={{ ShowLB, setShowLB }}>
@@ -103,10 +123,9 @@ const IndexScreen = () => {
           <img src={Avatare} alt="Avatare user" />
           <BtnNewPost onClick={() => setShowLB(!ShowLB)} id="NewPost">Nouvelle publication</BtnNewPost>
         </NewPostFeed>
-        <PostCard img={Avatare} userName={"Edouard_Koffee"} datePosted={"Hier 23h 20"} commentPosted={"Hey folks!Have you ever tried Second Cup’s Coffee? I think it taste like 💩💩💩 hihi"} />
-        <PostCard img={Avatare} userName={"Edouard_Koffee"} datePosted={"Hier 23h 20"} commentPosted={"Hey folks!Have you ever tried Second Cup’s Coffee? I think it taste like 💩💩💩 hihi"} />
-        <PostCard img={Avatare} userName={"Edouard_Koffee"} datePosted={"Hier 23h 20"} commentPosted={"Hey folks!Have you ever tried Second Cup’s Coffee? I think it taste like 💩💩💩 hihi"} />
-        <PostCard img={Avatare} userName={"Edouard_Koffee"} datePosted={"Hier 23h 20"} commentPosted={"Hey folks!Have you ever tried Second Cup’s Coffee? I think it taste like 💩💩💩 hihi"} />
+        {posts.map((post) => (
+          <PostCard key={post.post_id} img={Avatare} userName={post.user_name} datePosted={post.created_at.slice(0, 10)} commentPosted={post.post_content} />
+        ))}
       </MainFeed>}
     </>
   )
