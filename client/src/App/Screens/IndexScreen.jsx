@@ -8,7 +8,6 @@ import AddPostFeed from "../Components/Main/AddPostFeed";
 import Avatare from "../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import { LightBoxNewPost } from "../Contexts/LightBoxNewPost";
 import PostCard from "../Components/Main/PostCard";
-import SearchUsers from "../Components/Buttons/SearchUsers";
 
 const MainIndex = styled.main`
    display: flex;
@@ -93,13 +92,16 @@ const IndexScreen = () => {
 
 async function getUserPosts() {
     try {
-        const response = await fetch("http://localhost:5000/posts/user-posts", {
+        const response = await fetch("http://localhost:5000/friends/get-all-friends-posts", {
             method: "GET",
             headers: { token: localStorage.token }
         });
 
         const parseRes = await response.json();
-        setPosts(parseRes.rows);
+        if (parseRes.rows === undefined) {
+          return
+        }
+        setPosts(parseRes.rows)
     } catch (err) {
         console.error(err.message)
     }

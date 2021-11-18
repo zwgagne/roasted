@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SearchIcon from "../../../Assets/Images/Icons/Search_Icon.svg";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -97,7 +97,6 @@ const SearchUsers = () => {
         const userName = e.target.value;
         if (userName !== '') {
             try {
-                const body = {friendName : userName };
                 const response = await fetch(`http://localhost:5000/friends/search-friend/${userName}`, {
                     method: "GET",
                     header: {"Content-Type": "application/json"},
@@ -138,7 +137,7 @@ function NavUser(props) {
         <div>
             <FormSearch>
                 <IconSearch src={SearchIcon} onClick={props.onIconClick} />
-                <InputSearch name="userName" type="search" onKeyUp={props.onKeyUp} onClick={props.onInputClick} />
+                <InputSearch name="userName" type="search" onKeyUp={props.onKeyUp} onClick={props.onInputClick} autoComplete="off" />
             </FormSearch>
             {props.open && props.children}
         </div>
@@ -162,7 +161,7 @@ function DropdownSearchUser(props) {
     return (
         <DropDown>
             {props.usernames.map((username) => (
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} GoTo="/profil">
+                <DropdownUser linkTo="/profil" Icon1={<Avatare />} GoTo={username.user_name} key={Math.random()}>
                  {username.user_name}
                 </DropdownUser>
             ))}

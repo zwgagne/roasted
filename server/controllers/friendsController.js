@@ -4,7 +4,7 @@ module.exports = {
   sendFriendRequest: async (req, res) => {
     try {
 
-      const { friendName } = req.body;
+      const friendName = req.params.friendName;
       //1. Get info of user asking
       const user = await pgClient.query("SELECT user_id, user_friends, friends_pending FROM users WHERE user_id = $1", [req.user]);
       const userId = user.rows[0].user_id;
@@ -129,13 +129,11 @@ module.exports = {
 
   getAllFriendsPosts: async (req, res) => {
     try {
-      const user = await pgClient.query("SELECT user_friends FROM users WHERE user_id = $1", [req.user]);
-      const friends = user.rows[0].user_friends;
-      if (friends === null) {
-        return res.status(200).json("Vous n'avez pas d'amis")
-      }
-      const posts = await pgClient.query("SELECT * FROM posts WHERE user_name = ANY($1)", [friends]);
-      res.status(200).json(posts.rows)
+      const userFriends = await pgClient.query("SELECT user_friends FROM users WHERE user_id = $1", [req.user]);
+      const friends = userFriends.rows[0].user_friends;
+      const posts = await pgClient.query("SELECT post_content, post_author_id, created_at, post_id, user_name FROM users, posts WHERE post_author_id = ANY($1) AND user_id = post_author_id ORDER BY created_at DESC", [friends]);
+
+      res.status(200).json(posts)
     } catch (err) {
       console.error(err.message)
       res.status(500).json("Server error");
@@ -144,14 +142,13 @@ module.exports = {
 
   searchFriend: async (req, res) => {
     try {
-      console.log(req);
       const friendName = req.params.userName;
       const user = await pgClient.query("SELECT user_name FROM users WHERE user_name LIKE $1", [`%${friendName}%`]);
-      res.status(200).json({usernames: user.rows})
+      res.status(200).json({ usernames: user.rows })
     } catch (err) {
       console.error(err.message)
       res.status(500).json("Server error");
-    } 
+    }
 
   }
 
