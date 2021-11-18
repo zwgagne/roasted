@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import IndexScreen from "../Screens/IndexScreen"
 import ProfilScreen from "../Screens/ProfilScreen"
+import PublicProfilScreen from "../Screens/PublicProfilScreen";
 import RegisterScreen from "../Screens/RegisterScreen"
 import { UserInfos } from "../Contexts/UserInfos";
 import { Route, Switch, Redirect } from 'react-router'
@@ -37,6 +38,10 @@ const AppNavigator = () => {
                 </Route>
                 <Route exact path="/profil" render={props => IsLoggedIn ?
                     <ProfilScreen {...props} setAuth={setAuth} /> :
+                    <Redirect to="/" />}>
+                </Route>
+                <Route exact path="/public" render={props => IsLoggedIn ?
+                    <PublicProfilScreen {...props} setAuth={setAuth} /> :
                     <Redirect to="/" />}>
                 </Route>
 

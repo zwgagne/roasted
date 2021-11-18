@@ -162,7 +162,7 @@ function DropdownSearchUser(props) {
     return (
         <DropDown>
             {props.usernames.map((username) => (
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} GoTo="/profil">
+                <DropdownUser linkTo="/public" Icon1={<Avatare />} GoTo="/profil">
                  {username.user_name}
                 </DropdownUser>
             ))}
