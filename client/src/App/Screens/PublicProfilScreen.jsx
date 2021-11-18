@@ -5,16 +5,18 @@ import Avatare from "../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import PostCard from "../Components/Main/PostCard";
 import BtnAddFriend from "../Components/Buttons/AddFriend";
 import { ReactComponent as Ecommercial } from "../../Assets/Images/Icons/Ecommercial.svg";
-import { ReactComponent as EditIcon } from "../../Assets/Images/Icons/Edit.svg";
 import AddFriendIcon from "../../Assets/Images/Icons/Add_Friend_Icon.svg";
 
 const MainProfil = styled.main`
    display: flex;
    flex-wrap: wrap;
    justify-content: center;
+   @media (min-width: 1985px) {
+    padding: 36px 25%;
+   }
    @media (max-width: 960px) {
     padding: 26px;
-  }
+   }
 `;
 const ContainerCard = styled.section`
    background-color: #FFFCF7;
@@ -105,7 +107,7 @@ const NameButton = styled.span`
 const PublicProfilScreen = (props) => {
     const [inputs, setInputs] = useState({ name: "" })
     const [posts, setPosts] = useState([]);
-    const { name } = inputs;
+    //const { name } = inputs;
 
     async function getUserInfo() {
         try {

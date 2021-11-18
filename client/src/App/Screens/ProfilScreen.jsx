@@ -11,9 +11,12 @@ const MainProfil = styled.main`
    display: flex;
    flex-wrap: wrap;
    justify-content: center;
+   @media (min-width: 1985px) {
+    padding: 36px 25%;
+   }
    @media (max-width: 960px) {
     padding: 26px;
-  }
+   }
 `;
 const ContainerCard = styled.section`
    background-color: #FFFCF7;

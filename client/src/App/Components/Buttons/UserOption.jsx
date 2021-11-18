@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components"
 import { Link } from "react-router-dom";
+import FriendRequest from "./FriendRequest";
 import { ReactComponent as UserOptionIcon } from "../../../Assets/Images/Icons/UserOption.svg"
 import { ReactComponent as Avatare } from "../../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 
@@ -98,6 +99,7 @@ function UserFriend(props) {
 }
 
 function DropdownAllFriend() {
+    const [haveNotif, setHaveNotif ] = useState(false)
     function DropdownUser(props) {
         return (
             <>
@@ -115,10 +117,8 @@ function DropdownAllFriend() {
     return (
         <>
             <DropDown>
+                {haveNotif && <FriendRequest />}
                 <TitleFriends>Bean Buddies</TitleFriends>
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
                 <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
                 <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
                 <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
