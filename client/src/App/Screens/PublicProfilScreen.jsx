@@ -3,9 +3,10 @@ import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import Avatare from "../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import PostCard from "../Components/Main/PostCard";
-import EditProfil from "../Components/Main/EditProfil";
+import BtnAddFriend from "../Components/Buttons/AddFriend";
 import { ReactComponent as Ecommercial } from "../../Assets/Images/Icons/Ecommercial.svg";
-import { ReactComponent as EditIcon } from "../../Assets/Images/Icons/Edit.svg";
+import AddFriendIcon from "../../Assets/Images/Icons/Add_Friend_Icon.svg";
+import IconAccept from "../../Assets/Images/Icons/AcceptFR.svg";
 
 const MainProfil = styled.main`
    display: flex;
@@ -50,8 +51,14 @@ const ContainerSpan1 = styled.span`
    flex-wrap: wrap;
    width: 300px;
    @media (max-width: 960px) {
-       width: 50%;
-  }
+       width: 70%;
+   }
+   @media (max-width: 574px) {
+        width: 75%;
+   }
+   @media (max-width: 540px) {
+        width: 70%;
+   }
 `
 
 const SpanUserName = styled.span`
@@ -88,27 +95,21 @@ const DivContainerStatInfo = styled.div`
    flex-wrap: wrap;
    justify-content: space-evenly;
 `;
-const EditProfilBtn = styled.button`
-   background-color: #EEDDBE;
-   padding: 10px 15px;
-   border-radius: 40px;
-   border: none;
-   cursor: pointer;
-   &:hover{
-       background-color: #f3e9d7;
-   }
-`;
+
 const NameButton = styled.span`
    font-size: 16px;
    font-weight: bold;
    margin-left: 10px;
+   @media (max-width: 574px) {
+       width: 100%;
+  }
 `;
 
-const ProfilScreen = () => {
-    const [Edit, SetEdit] = useState(false)
-    const [inputs, setInputs] = useState({ name: "" })
+const PublicProfilScreen = (props) => {
+    const [inputs, setInputs] = useState({ name: "" });
     const [posts, setPosts] = useState([]);
-    const { name } = inputs;
+    const [isFriend, setIsFriend] = useState(true);
+    //const { name } = inputs;
 
     async function getUserInfo() {
         try {
@@ -156,11 +157,10 @@ const ProfilScreen = () => {
                         <AvatareUser src={Avatare} />
                         <ContainerSpan1>
                             <Ecommercial />
-                            <SpanUserName>{name}</SpanUserName>
-                            <EditProfilBtn onClick={() => SetEdit(!Edit)}>
-                                <EditIcon />
-                                <NameButton>Édit Profile</NameButton>
-                            </EditProfilBtn>
+                            <SpanUserName>Public profil name</SpanUserName>
+                            <NameButton>
+                                {!isFriend ? <BtnAddFriend to={props.GoTo} icon={AddFriendIcon} NameBtn="Ajouter" /> : <BtnAddFriend etat="true" to={props.GoTo} icon={IconAccept} NameBtn="Vous êtes ami" />}
+                            </NameButton>
                         </ContainerSpan1>
                     </ArticleUserAction>
                     <ArticleUserStats>
@@ -175,7 +175,6 @@ const ProfilScreen = () => {
                             </DivContainerStatInfo>
                         </div>
                     </ArticleUserStats>
-                    {Edit && <EditProfil />}
                 </ContainerCard>
                 {posts.map((post) => (
                     <PostCard key={post.post_id} img={Avatare} userName={post.user_name} datePosted={post.created_at.slice(0, 10)} commentPosted={post.post_content} />
@@ -185,4 +184,4 @@ const ProfilScreen = () => {
     )
 }
 
-export default ProfilScreen;
+export default PublicProfilScreen;
