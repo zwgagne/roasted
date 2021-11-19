@@ -99,7 +99,7 @@ function UserFriend(props) {
 }
 
 function DropdownAllFriend() {
-    const [haveNotif, setHaveNotif ] = useState(false)
+    const [haveNotif, setHaveNotif ] = useState(true)
     function DropdownUser(props) {
         return (
             <>

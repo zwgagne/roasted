@@ -6,6 +6,7 @@ import PostCard from "../Components/Main/PostCard";
 import BtnAddFriend from "../Components/Buttons/AddFriend";
 import { ReactComponent as Ecommercial } from "../../Assets/Images/Icons/Ecommercial.svg";
 import AddFriendIcon from "../../Assets/Images/Icons/Add_Friend_Icon.svg";
+import IconAccept from "../../Assets/Images/Icons/AcceptFR.svg";
 
 const MainProfil = styled.main`
    display: flex;
@@ -105,8 +106,9 @@ const NameButton = styled.span`
 `;
 
 const PublicProfilScreen = (props) => {
-    const [inputs, setInputs] = useState({ name: "" })
+    const [inputs, setInputs] = useState({ name: "" });
     const [posts, setPosts] = useState([]);
+    const [isFriend, setIsFriend] = useState(true);
     //const { name } = inputs;
 
     async function getUserInfo() {
@@ -157,7 +159,7 @@ const PublicProfilScreen = (props) => {
                             <Ecommercial />
                             <SpanUserName>Public profil name</SpanUserName>
                             <NameButton>
-                                <BtnAddFriend to={props.GoTo} icon={AddFriendIcon} NameBtn="Ajouter" />
+                                {!isFriend ? <BtnAddFriend to={props.GoTo} icon={AddFriendIcon} NameBtn="Ajouter" /> : <BtnAddFriend etat="true" to={props.GoTo} icon={IconAccept} NameBtn="Vous êtes ami" />}
                             </NameButton>
                         </ContainerSpan1>
                     </ArticleUserAction>

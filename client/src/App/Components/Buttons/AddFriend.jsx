@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const AddFriendLink = styled.button`
+   display: flex;
    background-color: #EEDDBE;
    padding: 10px 15px;
    border-radius: 40px;
@@ -12,6 +13,7 @@ const AddFriendLink = styled.button`
    }
 `;
 const NameButton = styled.span`
+   align-self: center;
    font-size: 16px;
    font-weight: bold;
    margin-left: 10px;
@@ -19,7 +21,7 @@ const NameButton = styled.span`
 
 const BtnAddFriend = (props) => {
     return (
-        <AddFriendLink to={props.GoTo}>
+        <AddFriendLink to={props.GoTo} disabled={props.etat}>
             <img src={props.icon} alt="Icon call to action" />
             <NameButton>{props.NameBtn}</NameButton>
         </AddFriendLink>
