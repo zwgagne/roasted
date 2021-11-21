@@ -46,7 +46,9 @@ const UserNameLink = styled(Link)`
    text-decoration: none;
 `;
 
-const FriendRequest = () => {
+const FriendRequest = (props) => {
+
+
     function DropdownUser(props) {
         return (
             <>
@@ -57,8 +59,8 @@ const FriendRequest = () => {
                         <UserNameLink to={props.linkTo}>{props.UserNameFriend}</UserNameLink>
                     </UserNameFriends>
                     <SpanBtnActionFR>
-                        <BtnAcceptFR afr="/accept" />
-                        <BtnRefuseFR afr="/refuse" />
+                        <BtnAcceptFR afr={props.UserNameFriend} />
+                        <BtnRefuseFR afr={props.UserNameFriend} />
                     </SpanBtnActionFR>
                 </ResultAllFriends>
             </>
@@ -67,8 +69,9 @@ const FriendRequest = () => {
     return (
         <>
             <TitleFriends>Buddies request</TitleFriends>
-            <DropdownUser linkTo="/public" Icon1={<Avatare />} UserNameFriend="StarCoffe" />
-            <DropdownUser linkTo="/public" Icon1={<Avatare />} UserNameFriend="Edouard Koffee" />
+            {props.pendingFriends.map((pending) => (
+                    <DropdownUser linkTo="/public" Icon1={<Avatare />} UserNameFriend={pending.user_name} value={pending.user_name} key={pending.user_id} />
+                ))}
         </>
     )
 }

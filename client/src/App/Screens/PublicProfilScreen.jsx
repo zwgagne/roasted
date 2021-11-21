@@ -7,6 +7,7 @@ import BtnAddFriend from "../Components/Buttons/AddFriend";
 import { ReactComponent as Ecommercial } from "../../Assets/Images/Icons/Ecommercial.svg";
 import AddFriendIcon from "../../Assets/Images/Icons/Add_Friend_Icon.svg";
 import IconAccept from "../../Assets/Images/Icons/AcceptFR.svg";
+import { parse } from "ipaddr.js";
 
 const MainProfil = styled.main`
    display: flex;
@@ -107,22 +108,25 @@ const NameButton = styled.span`
 
 const PublicProfilScreen = (props) => {
     const [inputs, setInputs] = useState({ name: "" });
-    const [posts, setPosts] = useState([]);
     const [isFriend, setIsFriend] = useState(true);
-    //const { name } = inputs;
-
-    async function getUserInfo() {
+    const { name } = inputs;
+    
+    async function getPublicUserInfo() {
         try {
-            const response = await fetch("http://localhost:5000/profile/edit", {
-                method: "GET",
-                headers: { token: localStorage.token }
-            });
+            const params= new URLSearchParams(window.location.search);
+            const userName = params.get("user")
+            console.log(userName)
+             const response = await fetch(`http://localhost:5000/profile/public/${userName}`, {
+                 method: "GET",
+                 headers: { token: localStorage.token }
+             });
 
             const parseRes = await response.json();
+            console.log(parseRes)
             setInputs({
-                email: parseRes.user_email,
-                name: parseRes.user_name
+                name: parseRes.infos
             });
+            setIsFriend(parseRes.isFriend)
 
         } catch (err) {
             console.error(err.message)
@@ -130,23 +134,10 @@ const PublicProfilScreen = (props) => {
     }
 
     useEffect(() => {
-        getUserInfo();
-        getUserPosts();
+        getPublicUserInfo();
     }, [])
+    
 
-    async function getUserPosts() {
-        try {
-            const response = await fetch("http://localhost:5000/posts/user-posts", {
-                method: "GET",
-                headers: { token: localStorage.token }
-            });
-
-            const parseRes = await response.json();
-            setPosts(parseRes.rows);
-        } catch (err) {
-            console.error(err.message)
-        }
-    }
 
     return (
         <>
@@ -157,9 +148,9 @@ const PublicProfilScreen = (props) => {
                         <AvatareUser src={Avatare} />
                         <ContainerSpan1>
                             <Ecommercial />
-                            <SpanUserName>Public profil name</SpanUserName>
+                            <SpanUserName>{name}</SpanUserName>
                             <NameButton>
-                                {!isFriend ? <BtnAddFriend to={props.GoTo} icon={AddFriendIcon} NameBtn="Ajouter" /> : <BtnAddFriend etat="true" to={props.GoTo} icon={IconAccept} NameBtn="Vous êtes ami" />}
+                                {!isFriend ? <BtnAddFriend to={name} icon={AddFriendIcon} NameBtn="Ajouter" /> : <BtnAddFriend etat="true" to={name} icon={IconAccept} NameBtn="Vous êtes ami" />}
                             </NameButton>
                         </ContainerSpan1>
                     </ArticleUserAction>
@@ -176,9 +167,6 @@ const PublicProfilScreen = (props) => {
                         </div>
                     </ArticleUserStats>
                 </ContainerCard>
-                {posts.map((post) => (
-                    <PostCard key={post.post_id} img={Avatare} userName={post.user_name} datePosted={post.created_at.slice(0, 10)} commentPosted={post.post_content} />
-                ))}
             </MainProfil>
         </>
     )

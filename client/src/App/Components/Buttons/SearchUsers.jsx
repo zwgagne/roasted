@@ -132,6 +132,8 @@ function SectionUsers(props) {
         </DivContainer>
     );
 }
+
+
 function NavUser(props) {
     return (
         <div>
@@ -158,10 +160,11 @@ function DropdownSearchUser(props) {
             </>
         )
     }
+    
     return (
         <DropDown>
             {props.usernames.map((username) => (
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} GoTo={username.user_name} key={Math.random()}>
+                <DropdownUser linkTo={"/public?user=" + username.user_name} Icon1={<Avatare />} GoTo={username.user_name} key={Math.random()}>
                  {username.user_name}
                 </DropdownUser>
             ))}

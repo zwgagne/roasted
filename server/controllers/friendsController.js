@@ -62,7 +62,7 @@ module.exports = {
 
   acceptFriendRequest: async (req, res) => {
     try {
-      const { friendName } = req.body;
+      const friendName = req.params.friendName;
       //1. Get info of user accepting
       const user = await pgClient.query("SELECT user_id, user_friends FROM users WHERE user_id = $1", [req.user]);
       const userId = user.rows[0].user_id;
@@ -95,7 +95,7 @@ module.exports = {
   declineFriendRequest: async (req, res) => {
     try {
       //1. Get info of user declining
-      const { friendName } = req.body;
+      const friendName = req.params.friendName;
       const user = await pgClient.query("SELECT user_id FROM users WHERE user_id = $1", [req.user]);
       const userId = user.rows[0].user_id;
 
@@ -116,16 +116,34 @@ module.exports = {
   getAllFriends: async (req, res) => {
     try {
       const user = await pgClient.query("SELECT user_friends FROM users WHERE user_id = $1", [req.user]);
-      const friends = user.rows[0].user_friends;
-      if (friends === null) {
+      const friendsId = user.rows[0].user_friends;
+      const friends = await pgClient.query("SELECT user_name, user_id FROM users WHERE user_id = ANY($1)", [friendsId]);
+      if (friends.rows.lenght == 0) {
         return res.status(200).json("Vous n'avez pas d'amis")
       }
-      res.status(200).json(friends)
+      res.status(200).json({ friendsNames: friends.rows })
     } catch (err) {
       console.error(err.message)
       res.status(500).json("Server error");
     }
   },
+
+  getPendingFriendRequests: async (req, res) => {
+    try {
+      const user = await pgClient.query("SELECT friends_pending FROM users WHERE user_id = $1", [req.user]);
+      const pendingId = user.rows[0].friends_pending;
+      const pending = await pgClient.query("SELECT user_name, user_id FROM users WHERE user_id = ANY($1)", [pendingId]);
+      if (pending.rows.lenght == 0) {
+        return res.status(200).json("Vous n'avez pas d'amis")
+      }
+      res.status(200).json({ pendingFriends: pending.rows })
+    } catch (err) {
+      console.error(err.message)
+      res.status(500).json("Server error");
+    }
+  },
+
+
 
   getAllFriendsPosts: async (req, res) => {
     try {

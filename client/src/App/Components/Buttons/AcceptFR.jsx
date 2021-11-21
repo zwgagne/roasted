@@ -31,9 +31,23 @@ const LinkAcceptFR = styled(Link)`
 `
 
 const BtnAcceptFR = (props) => {
+    async function acceptFriend(e) {
+        e.preventDefault();
+        try {
+            const friendName = props.afr;
+            const response = await fetch(`http://localhost:5000/friends/accept/${friendName}`, {
+                method: "GET",
+                headers: { token: localStorage.token }
+            });
+            window.location.reload();
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
     return (
         <>
-            <LinkAcceptFR to={props.afr}>
+            <LinkAcceptFR to={props.afr} onClick={(e) => acceptFriend(e)} >
                 <IconAccept />
             </LinkAcceptFR>
         </>

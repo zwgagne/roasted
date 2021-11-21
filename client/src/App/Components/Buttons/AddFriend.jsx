@@ -40,7 +40,7 @@ const BtnAddFriend = (props) => {
     }
 
     return (
-        <AddFriendLink to={props.GoTo} disabled={props.etat}>
+        <AddFriendLink to={props.to} disabled={props.etat} onClick={(e) => requestFriend(e)}>
             <img src={props.icon} alt="Icon call to action" />
             <NameButton>{props.NameBtn}</NameButton>
         </AddFriendLink>

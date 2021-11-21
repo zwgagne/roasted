@@ -62,8 +62,26 @@ module.exports = {
       await pgClient.query("UPDATE users SET user_name = $1 WHERE user_id = $2", [name, userId])
       res.status(200).json("Vos modifications ont été enregistrées")
 
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).json("Server error");
+    }
+  },
 
+  getPublicProfile: async (req, res) => {
+    try {
+      const userName = req.params.userName;
 
+      // aller chercher id du userName
+      const user = await pgClient.query("SELECT user_name, user_id FROM users WHERE user_name = $1", [userName]);
+      // aller chercher array friends de req.user
+      const userInfo = await pgClient.query("SELECT user_friends FROM users WHERE user_id = $1", [req.user]);
+      if (userInfo.rows[0].user_friends == null) {
+        res.status(200).json({ infos: user.rows[0].user_name })
+      } else {
+        const isFriend = userInfo.rows[0].user_friends.includes(user.rows[0].user_id);
+        res.status(200).json({ infos: user.rows[0].user_name, isFriend })
+      }
 
     } catch (err) {
       console.error(err.message);

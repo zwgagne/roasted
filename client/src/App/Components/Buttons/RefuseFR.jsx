@@ -30,9 +30,24 @@ const LinkRefuseFR = styled(Link)`
 `
 
 const BtnRefuseFR = (props) => {
+    async function declineFriend(e) {
+        e.preventDefault();
+        try {
+            const friendName = props.afr;
+            const response = await fetch(`http://localhost:5000/friends/decline/${friendName}`, {
+                method: "GET",
+                headers: { token: localStorage.token }
+            });
+            window.location.reload();
+
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
     return (
         <>
-            <LinkRefuseFR to={props.afr}>
+            <LinkRefuseFR to={props.afr} onClick={(e) => declineFriend(e)}>
                 <IconRefuse />
             </LinkRefuseFR>
         </>

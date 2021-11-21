@@ -67,12 +67,53 @@ const UserNameLink = styled(Link)`
 `;
 
 const UserOption = () => {
+    const [friendsNames, setFriendsNames] = useState([]);
+    const [pendingFriends, setPendingFriends] = useState([]);
+    const [open, setOpen] = useState(false);
+    async function getAllFriends() {
+        try {
+            const response = await fetch(`http://localhost:5000/friends/get-all-friends`, {
+                    method: "GET",
+                    headers: {
+                        token: localStorage.token,
+                        "Content-Type": "application/json"
+                    }
+                });
+            const res = await response.json();
+            setFriendsNames(res.friendsNames)
+            setOpen(!open)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+    async function getPendingFriendRequests() {
+        try {
+            const response = await fetch(`http://localhost:5000/friends/get-pending-friend-requests`, {
+                    method: "GET",
+                    headers: {
+                        token: localStorage.token,
+                        "Content-Type": "application/json"
+                    }
+                });
+            const res = await response.json();
+            setPendingFriends(res.pendingFriends)
+            setOpen(!open)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+
     return (
         <>
             <UserSection>
                 <SectionUsers>
-                    <UserFriend icon={<UserOptionIcon />}>
-                        <DropdownAllFriend />
+                    <UserFriend 
+                    onClick={() => {getAllFriends(); getPendingFriendRequests()}} 
+                    icon={<UserOptionIcon />}
+                    open={open}
+                    >
+                        <DropdownAllFriend friendsNames={friendsNames} pendingFriends={pendingFriends}/>
                     </UserFriend>
                 </SectionUsers>
             </UserSection>
@@ -87,27 +128,28 @@ function SectionUsers(props) {
     );
 }
 function UserFriend(props) {
-    const [open, setOpen] = useState(false);
     return (
         <div>
-            <div type="search" onClick={() => setOpen(!open)}>
+            <div type="search" onClick={props.onClick}>
                 {props.icon}
             </div>
-            {open && props.children}
+            {props.open && props.children}
         </div>
     );
 }
 
-function DropdownAllFriend() {
+function DropdownAllFriend(props) {
+
+
     const [haveNotif, setHaveNotif ] = useState(true)
     function DropdownUser(props) {
         return (
             <>
-                <ResultAllFriends>
-                    <Link to={props.linkTo}>{props.Icon1}</Link>
+                <ResultAllFriends >
+                    <Link to={props.linkTo} >{props.Icon1} </Link>
                     {props.children}
                     <UserNameFriends>
-                        <UserNameLink to={props.linkTo}>{props.UserNameFriend}</UserNameLink>
+                        <UserNameLink to={"/public?user=" + props.linkTo} >{props.UserNameFriend}</UserNameLink>
                     </UserNameFriends>
                     <span>{props.AddFriend}</span>
                 </ResultAllFriends>
@@ -117,12 +159,11 @@ function DropdownAllFriend() {
     return (
         <>
             <DropDown>
-                {haveNotif && <FriendRequest />}
+                {haveNotif && <FriendRequest pendingFriends={props.pendingFriends} />}
                 <TitleFriends>Bean Buddies</TitleFriends>
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
+                {props.friendsNames.map((friend) => (
+                    <DropdownUser linkTo={friend.user_name} Icon1={<Avatare />} UserNameFriend={friend.user_name} key={friend.user_id} />
+                ))}
             </DropDown>
         </>
     )
