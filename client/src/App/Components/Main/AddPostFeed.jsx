@@ -74,6 +74,12 @@ const AddPostFeed = () => {
     const { setShowLB } = useContext(LightBoxNewPost);
     const [inputs, setInputs] = useState({ content: "" });
     const { content } = inputs;
+    const reload = () => {
+        setTimeout(action, 1)
+        function action () {
+            window.location.reload();
+        }
+    }
     const onChange = (e) => {
         setInputs({...inputs, [e.target.name] : e.target.value });
       };
@@ -111,7 +117,7 @@ const AddPostFeed = () => {
                 <FormLB onSubmit={onSubmitForm}>
                     <CommentsText id="postContent" name="content" onChange={e => onChange(e)} value={content} placeholder="| Que voulez-vous partager?" />
                     <ContainerBtnShareLB>
-                        <BtnShareLB type="submit" >Publier</BtnShareLB>
+                        <BtnShareLB onClick={() => reload()} type="submit" >Publier</BtnShareLB>
                     </ContainerBtnShareLB>
                 </FormLB>
             </LightBox>
