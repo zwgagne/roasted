@@ -146,10 +146,16 @@ function NavUser(props) {
     );
 }
 function DropdownSearchUser(props) {
+    const reload = () => {
+        setTimeout(action, 1)
+        function action () {
+            window.location.reload();
+        }
+    }
     function DropdownUser(props) {
         return (
             <>
-                <ResultUsers to={props.linkTo}>
+                <ResultUsers onClick={() => reload()} to={props.linkTo}>
                     <SpanIconUser>{props.Icon1}</SpanIconUser>
                     {props.children}
                     <SpanIconUser>{props.AddFriend}</SpanIconUser>

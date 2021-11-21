@@ -4,7 +4,7 @@ import ProfilScreen from "../Screens/ProfilScreen"
 import PublicProfilScreen from "../Screens/PublicProfilScreen";
 import RegisterScreen from "../Screens/RegisterScreen"
 import { UserInfos } from "../Contexts/UserInfos";
-import { Route, Switch, Redirect } from 'react-router'
+import { Route, Switch } from 'react-router'
 import LoginScreen from "../Screens/LoginScreen";
 
 const AppNavigator = () => {
@@ -36,23 +36,17 @@ const AppNavigator = () => {
                 <Route exact path="/">
                     <IndexScreen />
                 </Route>
-                <Route exact path="/profil" render={props => IsLoggedIn ?
-                    <ProfilScreen {...props} setAuth={setAuth} /> :
-                    <Redirect to="/" />}>
+                <Route exact path="/profil" >
+                    {IsLoggedIn ? <ProfilScreen setAuth={setAuth} /> : <IndexScreen />}
                 </Route>
-                <Route exact path="/public" render={props => IsLoggedIn ?
-                    <PublicProfilScreen {...props} setAuth={setAuth} /> :
-                    <Redirect to="/" />}>
+                <Route exact path="/public">
+                    {IsLoggedIn ? <PublicProfilScreen setAuth={setAuth} /> : <IndexScreen />}
                 </Route>
-
-                <Route exact path="/login" render={props => !IsLoggedIn ?
-                    (<LoginScreen {...props} setAuth={setAuth} />) :
-                    (<Redirect to="/" />)}>
+                <Route exact path="/login" >
+                    {!IsLoggedIn ? <LoginScreen setAuth={setAuth} /> : <IndexScreen />}
                 </Route>
-
-                <Route exact path="/register" render={props => !IsLoggedIn ?
-                    <RegisterScreen {...props} setAuth={setAuth} /> :
-                    <Redirect to="/" />}>
+                <Route exact path="/register">
+                    {!IsLoggedIn ? <RegisterScreen setAuth={setAuth} /> : <IndexScreen />}
                 </Route>
             </Switch>
         </UserInfos.Provider>

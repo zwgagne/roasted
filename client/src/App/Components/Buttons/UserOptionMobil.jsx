@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components"
 import { Link } from "react-router-dom";
-import { ReactComponent as Avatare } from "../../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import FriendRequest from "./FriendRequest";
+import { ReactComponent as Avatare } from "../../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
+import { ReactComponent as UserOptionIcon } from "../../../Assets/Images/Icons/UserOption.svg"
 
 const UserSection = styled.div`
    margin-right: 30px;
@@ -66,12 +67,55 @@ const UserNameLink = styled(Link)`
 `;
 
 const UserOptionMobil = () => {
+    const [friendsNames, setFriendsNames] = useState([]);
+    const [pendingFriends, setPendingFriends] = useState([]);
+    const [open, setOpen] = useState(false);
+    useEffect(() => {
+        getAllFriends();
+        getPendingFriendRequests();
+    }, [])
+    async function getAllFriends() {
+        try {
+            const response = await fetch(`http://localhost:5000/friends/get-all-friends`, {
+                method: "GET",
+                headers: {
+                    token: localStorage.token,
+                    "Content-Type": "application/json"
+                }
+            });
+            const res = await response.json();
+            setFriendsNames(res.friendsNames)
+            setOpen(!open)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+    async function getPendingFriendRequests() {
+        try {
+            const response = await fetch(`http://localhost:5000/friends/get-pending-friend-requests`, {
+                method: "GET",
+                headers: {
+                    token: localStorage.token,
+                    "Content-Type": "application/json"
+                }
+            });
+            const res = await response.json();
+            setPendingFriends(res.pendingFriends)
+            setOpen(!open)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
     return (
         <>
             <UserSection>
                 <SectionUsers>
-                    <UserFriendMobil>
-                        <DropdownAllFriend />
+                    <UserFriendMobil
+                        onClick={() => { getAllFriends(); getPendingFriendRequests() }}
+                        icon={<UserOptionIcon />}
+                        open={open}>
+                        <DropdownAllFriend
+                            friendsNames={friendsNames} pendingFriends={pendingFriends} />
                     </UserFriendMobil>
                 </SectionUsers>
             </UserSection>
@@ -94,16 +138,22 @@ function UserFriendMobil(props) {
     );
 }
 
-function DropdownAllFriend() {
-    const [haveNotif, setHaveNotif] = useState(false)
+function DropdownAllFriend(props) {
+    const [haveNotif, setHaveNotif] = useState(true)
+    const reload = () => {
+        setTimeout(action, 1)
+        function action () {
+            window.location.reload();
+        }
+    }
     function DropdownUser(props) {
         return (
             <>
-                <ResultAllFriends>
+                <ResultAllFriends onClick={() => reload()}>
                     <Link to={props.linkTo}>{props.Icon1}</Link>
                     {props.children}
                     <UserNameFriends>
-                        <UserNameLink to={props.linkTo}>{props.UserNameFriend}</UserNameLink>
+                        <UserNameLink to={"/public?user=" + props.linkTo}>{props.UserNameFriend}</UserNameLink>
                     </UserNameFriends>
                     <span>{props.AddFriend}</span>
                 </ResultAllFriends>
@@ -113,13 +163,11 @@ function DropdownAllFriend() {
     return (
         <>
             <DropDown>
-                {haveNotif && <FriendRequest />}
+                {haveNotif && <FriendRequest pendingFriends={props.pendingFriends} />}
                 <TitleFriends>Bean Buddies</TitleFriends>
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
-                <DropdownUser linkTo="/profil" Icon1={<Avatare />} UserNameFriend="Edouard_Koffee" />
+                {props.friendsNames.map((friend) => (
+                    <DropdownUser linkTo={friend.user_name} Icon1={<Avatare />} UserNameFriend={friend.user_name} key={friend.user_id} />
+                ))}
             </DropDown>
         </>
     )

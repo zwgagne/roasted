@@ -117,6 +117,9 @@ function DropdownProfilMenu() {
         localStorage.removeItem("token");
         setIsLoggedIn(false);
     }
+    const onClickAction = () => {
+        setOpenF(!openF)
+    }
     function DropdownItem(props) {
         return (
             <>
@@ -135,7 +138,7 @@ function DropdownProfilMenu() {
                 {IsLoggedIn && <DropdownItem linkTo="/profil" Avatare={<Avatare />}>Mon Profil</DropdownItem>}
                 {!IsLoggedIn && <DropdownItem linkTo="/login" Icon1={<Login />}> Connexion</DropdownItem>}
                 <DisplayMobil>
-                    {IsLoggedIn && <DropdownItem linkTo="?" Icon1={<MyProfil />}><span onClick={() => setOpenF(!openF)}>Bean Buddies</span></DropdownItem>}
+                    {IsLoggedIn && <DropdownItem linkTo="?" Icon1={<MyProfil />}><span onClick={() => onClickAction()}>Bean Buddies</span></DropdownItem>}
                     {openF && <UserOptionMobil />}
 
                     {IsLoggedIn && <DropdownItem linkTo="?" Icon1={<SearchIcon />}><span onClick={() => setOpen(!open)}>Recherche</span></DropdownItem>}

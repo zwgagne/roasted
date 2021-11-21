@@ -73,12 +73,12 @@ const UserOption = () => {
     async function getAllFriends() {
         try {
             const response = await fetch(`http://localhost:5000/friends/get-all-friends`, {
-                    method: "GET",
-                    headers: {
-                        token: localStorage.token,
-                        "Content-Type": "application/json"
-                    }
-                });
+                method: "GET",
+                headers: {
+                    token: localStorage.token,
+                    "Content-Type": "application/json"
+                }
+            });
             const res = await response.json();
             setFriendsNames(res.friendsNames)
             setOpen(!open)
@@ -89,12 +89,12 @@ const UserOption = () => {
     async function getPendingFriendRequests() {
         try {
             const response = await fetch(`http://localhost:5000/friends/get-pending-friend-requests`, {
-                    method: "GET",
-                    headers: {
-                        token: localStorage.token,
-                        "Content-Type": "application/json"
-                    }
-                });
+                method: "GET",
+                headers: {
+                    token: localStorage.token,
+                    "Content-Type": "application/json"
+                }
+            });
             const res = await response.json();
             setPendingFriends(res.pendingFriends)
             setOpen(!open)
@@ -108,12 +108,12 @@ const UserOption = () => {
         <>
             <UserSection>
                 <SectionUsers>
-                    <UserFriend 
-                    onClick={() => {getAllFriends(); getPendingFriendRequests()}} 
-                    icon={<UserOptionIcon />}
-                    open={open}
+                    <UserFriend
+                        onClick={() => { getAllFriends(); getPendingFriendRequests() }}
+                        icon={<UserOptionIcon />}
+                        open={open}
                     >
-                        <DropdownAllFriend friendsNames={friendsNames} pendingFriends={pendingFriends}/>
+                        <DropdownAllFriend friendsNames={friendsNames} pendingFriends={pendingFriends} />
                     </UserFriend>
                 </SectionUsers>
             </UserSection>
@@ -141,11 +141,17 @@ function UserFriend(props) {
 function DropdownAllFriend(props) {
 
 
-    const [haveNotif, setHaveNotif ] = useState(true)
+    const [haveNotif, setHaveNotif] = useState(true)
+    const reload = () => {
+        setTimeout(action, 1)
+        function action () {
+            window.location.reload();
+        }
+    }
     function DropdownUser(props) {
         return (
             <>
-                <ResultAllFriends >
+                <ResultAllFriends onClick={() => reload()}>
                     <Link to={props.linkTo} >{props.Icon1} </Link>
                     {props.children}
                     <UserNameFriends>
