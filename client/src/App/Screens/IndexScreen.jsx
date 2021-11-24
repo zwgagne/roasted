@@ -8,6 +8,7 @@ import AddPostFeed from "../Components/Main/AddPostFeed";
 import Avatare from "../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import { LightBoxNewPost } from "../Contexts/LightBoxNewPost";
 import PostCard from "../Components/Main/PostCard";
+import PostCardMeetUp from "../Components/Main/Meetup/PostCardMeetUp";
 
 const MainIndex = styled.main`
    display: flex;
@@ -120,11 +121,15 @@ async function getUserPosts() {
         <SubUser />
       </MainIndex>}
 
-      {IsLoggedIn && <MainFeed>
+      {IsLoggedIn && 
+      <MainFeed>
         <NewPostFeed>
           <img src={Avatare} alt="Avatare user" />
           <BtnNewPost onClick={() => setShowLB(!ShowLB)} id="NewPost">Nouvelle publication</BtnNewPost>
         </NewPostFeed>
+
+        <PostCardMeetUp />
+
         {posts.map((post) => (
           <PostCard key={post.post_id} img={Avatare} userName={post.user_name} datePosted={post.created_at.slice(0, 10)} commentPosted={post.post_content} />
         ))}
