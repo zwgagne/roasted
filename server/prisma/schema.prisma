@@ -35,7 +35,7 @@ meetup_id         String    @id @default(dbgenerated("gen_random_uuid()"
 user_inviting     users?    @relation(fields: [meetup_id], references: [user_id])
 user_invited      String    @db.Uuid 
 created_at        DateTime  @default(now())
-meetup_date       DateTime  @default(now())
+meetup_date       DateTime  
 meetup_time       DateTime
 meetup_address    String    @db.VarChar(255)
 meetup_place      String    @db.VarChar(255)
