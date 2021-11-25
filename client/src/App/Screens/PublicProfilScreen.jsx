@@ -8,6 +8,8 @@ import { ReactComponent as Ecommercial } from "../../Assets/Images/Icons/Ecommer
 import AddFriendIcon from "../../Assets/Images/Icons/Add_Friend_Icon.svg";
 import IconAccept from "../../Assets/Images/Icons/AcceptFR.svg";
 import { parse } from "ipaddr.js";
+import NewMeetup from "../Components/Buttons/NewMeetup";
+import LightBox from "../Components/Main/LightBox";
 
 const MainProfil = styled.main`
    display: flex;
@@ -106,20 +108,33 @@ const NameButton = styled.span`
   }
 `;
 
+const LightBoxBG = styled.div`
+   position: absolute;
+   z-index: 1;
+   display: flex;
+   justify-content: center;
+   backdrop-filter: blur(1px);
+   overflow: hidden;
+   background-color: #00000040;
+   width: 100%;
+   height: 100%;
+`;
+
 const PublicProfilScreen = (props) => {
     const [inputs, setInputs] = useState({ name: "" });
     const [isFriend, setIsFriend] = useState(true);
+    const [meetUpFormLB, setMeetUpFormLB] = useState(false)
     const { name } = inputs;
-    
+
     async function getPublicUserInfo() {
         try {
-            const params= new URLSearchParams(window.location.search);
+            const params = new URLSearchParams(window.location.search);
             const userName = params.get("user")
             console.log(userName)
-             const response = await fetch(`http://localhost:5000/profile/public/${userName}`, {
-                 method: "GET",
-                 headers: { token: localStorage.token }
-             });
+            const response = await fetch(`http://localhost:5000/profile/public/${userName}`, {
+                method: "GET",
+                headers: { token: localStorage.token }
+            });
 
             const parseRes = await response.json();
             console.log(parseRes)
@@ -136,11 +151,14 @@ const PublicProfilScreen = (props) => {
     useEffect(() => {
         getPublicUserInfo();
     }, [])
-    
+
 
 
     return (
         <>
+            {meetUpFormLB && <LightBoxBG>
+                <LightBox functionLB2={() => setMeetUpFormLB(false)}/>
+            </LightBoxBG>}
             <NavHeader />
             <MainProfil>
                 <ContainerCard>
@@ -151,6 +169,7 @@ const PublicProfilScreen = (props) => {
                             <SpanUserName>{name}</SpanUserName>
                             <NameButton>
                                 {!isFriend ? <BtnAddFriend to={name} icon={AddFriendIcon} NameBtn="Ajouter" /> : <BtnAddFriend etat="true" to={name} icon={IconAccept} NameBtn="Vous êtes ami" />}
+                                {isFriend && <NewMeetup functionLB={() => setMeetUpFormLB(true)} />}
                             </NameButton>
                         </ContainerSpan1>
                     </ArticleUserAction>
