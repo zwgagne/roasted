@@ -3,7 +3,7 @@ const pgClient = require("../db");
 module.exports = {
   profile: async (req, res) => {
     try {
-
+ 
       const user = await pgClient.query("SELECT user_name FROM users WHERE user_id = $1", [req.user]);
 
       res.json(user.rows[0])

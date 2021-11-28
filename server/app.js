@@ -19,6 +19,7 @@ app.use("/auth", require("./routes/auth"));
 app.use("/profile", require("./routes/profile"));
 app.use("/friends", require("./routes/friends"));
 app.use("/posts", require("./routes/posts"));
+app.use("/meet", require("./routes/meet"))
 
 
 // catch 404 and forward to error handler
