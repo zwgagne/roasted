@@ -130,14 +130,12 @@ const PublicProfilScreen = (props) => {
         try {
             const params = new URLSearchParams(window.location.search);
             const userName = params.get("user")
-            console.log(userName)
             const response = await fetch(`http://localhost:5000/profile/public/${userName}`, {
                 method: "GET",
                 headers: { token: localStorage.token }
             });
 
             const parseRes = await response.json();
-            console.log(parseRes)
             setInputs({
                 name: parseRes.infos
             });

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AvatarIcon from "../../../../Assets/Images/Icons/Avatar_Icon_Profil.svg"
 
@@ -74,6 +74,45 @@ const ButtonSumitForm = styled.button`
 `;
 
 const FormNewMeetUp = (props) => {
+
+   const [inputs, setInputs] = useState({
+      place: "",
+      address: "",
+      date: "",
+      time: ""
+    })
+    
+    const {place, address, date, time} = inputs;
+  
+    const onChange = (e) => {
+      setInputs({...inputs, [e.target.name] : e.target.value });
+    };
+  
+    const body = {place, address, date, time};
+
+
+   const onSubmitForm = async (e) => {
+      e.preventDefault();
+  
+      try {
+         const params = new URLSearchParams(window.location.search);
+         const friendName = params.get("user")
+         const response = await fetch(`http://localhost:5000/meet/send-meetup-request/${friendName}`, {
+            method: "POST", 
+            headers: {
+               token: localStorage.token,
+               "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)    
+        });
+        const parseRes = await response.json();
+        console.log(parseRes);
+
+      } catch (err) {
+        console.error(err.message)
+      }
+    }
+
     return (
         <>
             <ContainerFrom>
@@ -82,22 +121,22 @@ const FormNewMeetUp = (props) => {
                     <PInfoAction>Utilisateur invité</PInfoAction>
                     <ContainerUserInvite>
                         <img src={AvatarIcon} alt="Avatar icon" />
-                        <SpanNameUI>Edouard_Koffee</SpanNameUI>
+                        <SpanNameUI>{new URLSearchParams(window.location.search).get("user")}</SpanNameUI>
                     </ContainerUserInvite>
-                    <form>
+                    <form onSubmit={onSubmitForm}>
                         <LabelForm htmlFor="placeMU">Lieu de rencontre</LabelForm>
-                        <InputForm type="text" id="placeMU" name="place" placeholder="Nom de l'etablissement" />
+                        <InputForm onChange={e => onChange(e)} type="text" id="placeMU" name="place" value={place} placeholder="Nom de l'etablissement" />
 
                         <LabelForm htmlFor="adressMU">Adresse</LabelForm>
-                        <InputForm type="text" id="adressMU" name="adress" placeholder="Adresse et Ville" />
+                        <InputForm onChange={e => onChange(e)} type="text" id="adressMU" name="address" value={address} placeholder="Adresse et Ville" />
 
                         <LabelForm htmlFor="dateMU">Date de la rencontre</LabelForm>
-                        <InputForm type="date" id="dateMU" name="date" placeholder="" />
+                        <InputForm onChange={e => onChange(e)} type="date" id="dateMU" name="date" value={date} placeholder="" />
 
                         <LabelForm htmlFor="timeMU">Heure</LabelForm>
-                        <InputForm type="time" id="timeMU" name="time" placeholder="" />
+                        <InputForm onChange={e => onChange(e)} type="time" id="timeMU" name="time" value={time} placeholder="" />
 
-                        <ButtonSumitForm type="submit" onClick={props.functionLB3}>Imposer une Meetup</ButtonSumitForm>
+                        <ButtonSumitForm type="submit" >Imposer une Meetup</ButtonSumitForm>
                     </form>
                 </SectionFrom>
             </ContainerFrom>
