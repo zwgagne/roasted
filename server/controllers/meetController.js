@@ -5,9 +5,10 @@ module.exports = {
     try {
       const userInviting = req.user;
       const { date, time, address, place } = req.body;
+      const dateTime = date + "T" + time
       const userInvitedObject = await pgClient.query("SELECT user_id FROM users WHERE user_name = $1", [req.params.friendName])
       const userInvited = userInvitedObject.rows[0].user_id;
-      await pgClient.query("INSERT INTO meetups (user_inviting_id, user_invited, meetup_date, meetup_time, meetup_address, meetup_place) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *", [userInviting, userInvited, date, time, address, place])
+      await pgClient.query("INSERT INTO meetups (user_inviting_id, user_invited, meetup_date, meetup_time, meetup_address, meetup_place) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *", [userInviting, userInvited, dateTime, dateTime, address, place])
       res.status(200).json(userInvited);
 
     } catch (err) {

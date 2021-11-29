@@ -97,6 +97,8 @@ const FormNewMeetUp = (props) => {
       try {
          const params = new URLSearchParams(window.location.search);
          const friendName = params.get("user")
+         console.log(body)
+         console.log(friendName)
          const response = await fetch(`http://localhost:5000/meet/send-meetup-request/${friendName}`, {
             method: "POST", 
             headers: {
@@ -112,6 +114,14 @@ const FormNewMeetUp = (props) => {
         console.error(err.message)
       }
     }
+
+    const reload = () => {
+      setTimeout(action, 1)
+      function action () {
+          window.location.reload();
+      }
+  }
+
 
     return (
         <>
@@ -136,7 +146,7 @@ const FormNewMeetUp = (props) => {
                         <LabelForm htmlFor="timeMU">Heure</LabelForm>
                         <InputForm onChange={e => onChange(e)} type="time" id="timeMU" name="time" value={time} placeholder="" />
 
-                        <ButtonSumitForm type="submit" >Imposer une Meetup</ButtonSumitForm>
+                        <ButtonSumitForm type="submit" onClick={() => reload()}>Imposer une Meetup</ButtonSumitForm>
                     </form>
                 </SectionFrom>
             </ContainerFrom>
