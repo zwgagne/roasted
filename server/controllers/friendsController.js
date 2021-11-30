@@ -86,6 +86,10 @@ module.exports = {
       await pgClient.query("UPDATE users SET user_friends = array_append(user_friends, $1) WHERE user_id = $2", [userId, friendId])
       res.status(200).json("Demande acceptée")
 
+      // add two points to user who accepted the request
+      await pgClient.query("UPDATE users SET user_points = user_points + 2 WHERE user_id = $1", [userId])
+      
+
     } catch (err) {
       console.error(err.message)
       res.status(500).json("Server error");
