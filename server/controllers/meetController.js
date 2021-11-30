@@ -15,8 +15,37 @@ module.exports = {
       console.error(err.message)
       res.status(500).json("Server error");
     }
+  },
+
+  getMeetupRequest: async (req, res) => {
+    try {
+      const userInvited = req.user;
+      const userInvitingObject = await pgClient.query("SELECT user_inviting_id FROM meetups WHERE user_invited = $1", [userInvited])
+      const userInviting = userInvitingObject.rows[0].user_inviting_id;
+      const meetup = await pgClient.query("SELECT * FROM meetups WHERE user_invited = $1 AND user_inviting_id = $2", [userInvited, userInviting])
+      res.status(200).json(meetup);
+
+    } catch (err) {
+      console.error(err.message)
+      res.status(500).json("Server error");
+    }
+  },
+  getMeetupRequestSent: async (req, res) => {
+    try {
+      const userInvited = req.user;
+      const meetup = await pgClient.query("SELECT * FROM meetups WHERE user_invited = $1", [userInvited])
+      res.status(200).json(meetup);
+
+    } catch (err) {
+      console.error(err.message)
+      res.status(500).json("Server error");
+    }
   }
+
+
+
 };
+
 
 
 
