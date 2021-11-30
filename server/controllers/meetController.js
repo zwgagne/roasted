@@ -18,18 +18,7 @@ module.exports = {
   }
 };
 
-const checkIfAlreadyGoing = async (req, res) => {
-  try {
-    const userInvitedObject = await pgClient.query("SELECT user_id FROM users WHERE user_name = $1", [req.params.friendName])
-    const userInvited = userInvitedObject.rows[0].user_id;
-    const meetup = await pgClient.query("SELECT * FROM meetups WHERE user_invited = $1", [userInvited])
-    res.status(200).json(meetup);
 
-  } catch (err) {
-    console.error(err.message)
-    res.status(500).json("Server error");
-  }
-}
 
 
 
