@@ -11,6 +11,9 @@ module.exports = {
       await pgClient.query("INSERT INTO posts (post_content, post_author_id) VALUES ($1, $2) RETURNING *", [content, author]);
       res.status(200).json("Publication partagée");
 
+     
+      const authorPoints = await pgClient.query("SELECT user_points FROM users WHERE user_id = $1", [author]);
+
 
 
     } catch (err) {
