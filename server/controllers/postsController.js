@@ -10,11 +10,12 @@ module.exports = {
       const author = req.user;
       await pgClient.query("INSERT INTO posts (post_content, post_author_id) VALUES ($1, $2) RETURNING *", [content, author]);
       res.status(200).json("Publication partagée");
-
      
-      const authorPoints = await pgClient.query("SELECT user_points FROM users WHERE user_id = $1", [author]);
+      // add 10 points to the user who posted
+      await pgClient.query("UPDATE users SET user_points = user_points + 10 WHERE user_id = $1", [author]);
+      
 
-
+    
 
     } catch (err) {
       console.error(err.message)
