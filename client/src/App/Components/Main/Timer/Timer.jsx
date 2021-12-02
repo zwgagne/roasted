@@ -2,12 +2,18 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Countdown from 'react-countdown';
 import { getRemainingTimeUntilMsTimestamp } from "./CountdownTimer";
+import TimeOut from "./TimeOut";
+
+const SpanTimer = styled.span`
+   margin-left: 8px;
+`;
 
 const defaultRemainingTime = {
     seconds: '00',
     minutes: '00',
     hours: '00',
     days: '00',
+    passed: false
 }
 
 const Timer = ({ countdownTimestampMs }) => {
@@ -26,39 +32,23 @@ const Timer = ({ countdownTimestampMs }) => {
 
     return (
         <>
-            <span>
-                <Days d={remainingTime.days} />
-
+            {!remainingTime.passed && <SpanTimer> Dans
+                <Days d={remainingTime.days} /> et
                 <Hours t={remainingTime.hours} />
                 <Minutes m={remainingTime.minutes} />
                 <Secondes s={remainingTime.seconds} />
-            </span>
+            </SpanTimer>}
+            {remainingTime.passed && <TimeOut />}
         </>
     )
 }
 
 export default Timer;
 
-//function Years(props) {
-//    return (
-//        <>
-//            <span><b>{props.y}</b> A</span>
-//        </>
-//    )
-//}
-
-function Mounts(props) {
-    return (
-        <>
-            <span><b> {props.M}</b> M</span>
-        </>
-    )
-}
-
 function Days(props) {
     return (
         <>
-            <span><b> {props.d}</b> J</span>
+            <span><b> {props.d}</b> Jour(s)</span>
         </>
     )
 }
@@ -66,7 +56,7 @@ function Days(props) {
 function Hours(props) {
     return (
         <>
-            <span><b> {props.t}</b> H</span>
+            <span><b> {props.t} :</b></span>
         </>
     )
 }
@@ -74,7 +64,7 @@ function Hours(props) {
 function Minutes(props) {
     return (
         <>
-            <span><b> {props.m}</b> M</span>
+            <span><b> {props.m}</b> min</span>
         </>
     )
 }
@@ -82,7 +72,7 @@ function Minutes(props) {
 function Secondes(props) {
     return (
         <>
-            <span><b> {props.s}</b> S</span>
+            <span><b> {props.s}</b> sec</span>
         </>
     )
 }

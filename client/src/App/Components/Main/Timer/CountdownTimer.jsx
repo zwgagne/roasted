@@ -8,14 +8,16 @@ export function getRemainingTimeUntilMsTimestamp(timestampMs) {
             seconds: '00',
             minutes: '00',
             hours: '00',
-            days: '00'
+            days: '00',
+            passed : true
         }
     }
     return {
         seconds : getRemainingSeconds(nowDayjs, timestampDayjs),
         minutes : getRemainingMinutes(nowDayjs, timestampDayjs),
         hours : getRemainingHours(nowDayjs, timestampDayjs),
-        days : getRemainingDays(nowDayjs, timestampDayjs)
+        days : getRemainingDays(nowDayjs, timestampDayjs),
+        passed : false
     } ;
 }
 
