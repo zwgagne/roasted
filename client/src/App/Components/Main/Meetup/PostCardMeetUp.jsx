@@ -4,6 +4,7 @@ import InfoMeetupPlace from "./InfoMeetupPlace";
 import UsersMeetup from "./UsersMeetup";
 import MeetUpIcon from "../../../../Assets/Images/Icons/MeetUp_Icons.svg"
 import ClockIcon from "../../../../Assets/Images/Icons/Clock_Icon.svg"
+import Timer from "../Timer/Timer";
 
 const ContainerCard = styled.div`
    background-color: #FFFCF7;
@@ -61,6 +62,8 @@ const TimerInfo = styled.div`
 `;
 
 const PostCardMeetUp = () => {
+    let dateBd = new Date("2021-12-05T12:00:00").getTime() // Fetch la date en ISO ici
+
     return (
         <>
             <ContainerCard>
@@ -70,7 +73,7 @@ const PostCardMeetUp = () => {
                         <TimerInfo>
                             <TitlePost>Meetup</TitlePost>
                             <img src={ClockIcon} />
-                            <span> Timer here</span>
+                            <Timer countdownTimestampMs={dateBd} />
                         </TimerInfo>
                     </SectionTop>
                     <SectionBottom>
