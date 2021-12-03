@@ -24,8 +24,8 @@ module.exports = {
       const userInvited = req.user;
       const userInvitingObject = await pgClient.query("SELECT user_inviting_id FROM meetups WHERE user_invited = $1", [userInvited])
       const userInviting = userInvitingObject.rows[0].user_inviting_id;
-      const meetup = await pgClient.query("SELECT * FROM meetups WHERE user_invited = $1 AND user_inviting_id = $2", [userInvited, userInviting])
-      res.status(200).json(meetup);
+      const meetupInfo = await pgClient.query("SELECT user_inviting_id, user_invited, meetup_date, meetup_time, meetup_address, meetup_place, user_name FROM meetups, users WHERE user_invited = $1 AND user_id = $2 AND user_inviting_id = $2", [userInvited, userInviting])
+      res.status(200).json(meetupInfo);
 
     } catch (err) {
       console.error(err.message)
@@ -34,16 +34,14 @@ module.exports = {
   },
   getMeetupRequestSent: async (req, res) => {
     try {
-      const userInvited = req.user;
-      const meetup = await pgClient.query("SELECT * FROM meetups WHERE user_invited = $1", [userInvited])
-      res.status(200).json(meetup);
+      const meetupSentInfo = await pgClient.query("SELECT user_inviting_id, user_invited, meetup_date, meetup_time, meetup_address, meetup_place, user_name FROM meetups, users WHERE user_inviting_id = $1 AND user_id = user_invited", [req.user])
+      res.status(200).json(meetupSentInfo);
 
     } catch (err) {
       console.error(err.message)
       res.status(500).json("Server error");
     }
-  },
-
+  }
 };
 
 

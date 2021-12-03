@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import InfoMeetupPlace from "./InfoMeetupPlace";
 import UsersMeetup from "./UsersMeetup";
@@ -62,26 +62,90 @@ const TimerInfo = styled.div`
 `;
 
 const PostCardMeetUp = () => {
-    let dateBd = new Date("2021-12-05T12:00:00").getTime() // Fetch la date en ISO ici
+    
+    const [meetupInfo, setMeetupInfo] = useState()
+    const [sentMeetupInfo, setSentMeetupInfo] = useState()
+    
+    async function getMeetupInfo() {
+        try {
+            const response = await fetch("http://localhost:5000/meet/get-meetup-info", {
+                method: "GET",
+                headers: { token: localStorage.token }
+            });
+            
+            const parseRes = await response.json();
+            setMeetupInfo(parseRes.rows);
+        } catch (err) {
+            console.error(err.message)
+        }
+    }
+
+    async function getSentMeetupInfo() {
+        try {
+            const response = await fetch("http://localhost:5000/meet/get-sent-meetup-info", {
+                method: "GET",
+                headers: { token: localStorage.token }
+            });
+            
+            const parseRes = await response.json();
+            setSentMeetupInfo(parseRes.rows);
+        } catch (err) {
+            console.error(err.message)
+        }
+    }
+
+    
+    useEffect(() => {
+        getMeetupInfo();
+        getSentMeetupInfo();
+    }, [])    
+
 
     return (
         <>
-            <ContainerCard>
+            
+            {meetupInfo && meetupInfo.map((meetup) => (
+
+            <ContainerCard key={meetup.meetup_id}>
                 <BgColorCard>
                     <SectionTop>
                         <img src={MeetUpIcon} />
                         <TimerInfo>
                             <TitlePost>Meetup</TitlePost>
                             <img src={ClockIcon} />
-                            <Timer countdownTimestampMs={dateBd} />
+                            <Timer countdownTimestampMs={new Date(meetup.meetup_time).getTime()} />
                         </TimerInfo>
                     </SectionTop>
                     <SectionBottom>
-                        <InfoMeetupPlace DateM="13/12/2020" TimeM="17h30" CompanyName="Café Smith" AdressM="1525 Blvd René-Levesque Ouest" />
-                        <UsersMeetup UserName1="Vous" UserName2="Blkoffee" />
+                        <InfoMeetupPlace DateM={meetup.meetup_time.slice(0, -14)} TimeM={meetup.meetup_time.slice(-13,-8)} CompanyName={meetup.meetup_place} AdressM={meetup.meetup_address} />
+                        <UsersMeetup UserName1="Vous" UserName2={meetup.user_name} />
                     </SectionBottom>
+                        <p>Une initiative de : {meetup.user_name}</p>
                 </BgColorCard>
             </ContainerCard>
+            ))}
+
+            {sentMeetupInfo && sentMeetupInfo.map((meetup) => (
+
+            <ContainerCard key={meetup.meetup_id}>
+                <BgColorCard>
+                    <SectionTop>
+                        <img src={MeetUpIcon} />
+                        <TimerInfo>
+                            <TitlePost>Meetup</TitlePost>
+                            <img src={ClockIcon} />
+                            <Timer countdownTimestampMs={new Date(meetup.meetup_time).getTime()} />
+                        </TimerInfo>
+                    </SectionTop>
+                    <SectionBottom>
+                        <InfoMeetupPlace DateM={meetup.meetup_time.slice(0, -14)} TimeM={meetup.meetup_time.slice(-13,-8)} CompanyName={meetup.meetup_place} AdressM={meetup.meetup_address} />
+                        <UsersMeetup UserName1="Vous" UserName2={meetup.user_name} />
+                    </SectionBottom>
+                        <p>Vous avez envoyé l'invitation</p>
+                </BgColorCard>
+            </ContainerCard>
+            ))}
+
         </>
     )
 }
