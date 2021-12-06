@@ -68,6 +68,16 @@ module.exports = {
     }
   },
 
+  // get a user's number of points
+  getUserPoints: async (req, res) => {
+    try {
+      const user = await pgClient.query("SELECT user_points FROM users WHERE user_id = $1", [req.params.id]);
+      res.json(user.rows[0])
+    } catch (err) {
+      console.error(err.message)
+      res.status(500).json("Server error");
+    },
+
   getPublicProfile: async (req, res) => {
     try {
       const userName = req.params.userName;

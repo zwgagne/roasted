@@ -11,7 +11,8 @@ module.exports = {
       await pgClient.query("INSERT INTO meetups (user_inviting_id, user_invited, meetup_date, meetup_time, meetup_address, meetup_place) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *", [userInviting, userInvited, dateTime, dateTime, address, place])
       res.status(200).json(userInvited);
 
-      const userInvitingPoints = await pgClient.query("SELECT user_points FROM users WHERE user_id = $1", [userInviting]);
+      // add 25 points to user inviting
+      await pgClient.query("UPDATE users SET user_points = user_points + 25 WHERE user_id = $1", [userInviting])
 
     } catch (err) {
       console.error(err.message)
