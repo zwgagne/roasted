@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import Avatare from "../../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import styled from "styled-components";
 import { LightBoxNewPost } from "../../Contexts/LightBoxNewPost";
+import { ScoreLvl } from "../../Contexts/ScoreLvl";
 
 const LightBox = styled.div`
    position: absolute;
@@ -72,9 +73,11 @@ const BtnShareLB = styled.button`
 
 const AddPostFeed = () => {
     const { setShowLB } = useContext(LightBoxNewPost);
+    const { score, setScore } = useContext(ScoreLvl)
     const [inputs, setInputs] = useState({ content: "" });
     const { content } = inputs;
     const reload = () => {
+        setScore(score + 10)
         setTimeout(action, 1)
         function action () {
             window.location.reload();

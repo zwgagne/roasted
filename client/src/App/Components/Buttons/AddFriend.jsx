@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { ScoreLvl } from "../../Contexts/ScoreLvl";
 
 const AddFriendLink = styled.button`
    display: flex;
@@ -20,6 +21,19 @@ const NameButton = styled.span`
 `
 
 const BtnAddFriend = (props) => {
+    const { score, setScore } = useContext(ScoreLvl)
+
+    const ExeFunction = (e) => {
+        UpdateScore();
+        requestFriend(e)
+    }
+    const UpdateScore = () => {
+        if (document.getElementById("btnFEtat").disabled === false) {
+            setScore(score + 2)
+            document.getElementById("btnFEtat").disabled = true;
+            document.getElementById("NameBtnAddFriend").innerHTML = "Envoyé!"
+        }
+    }
 
     async function requestFriend(e) {
         e.preventDefault();
@@ -40,9 +54,9 @@ const BtnAddFriend = (props) => {
     }
 
     return (
-        <AddFriendLink to={props.to} disabled={props.etat} onClick={(e) => requestFriend(e)}>
+        <AddFriendLink id="btnFEtat" to={props.to} disabled={props.etat} onClick={(e) => ExeFunction(e)}>
             <img src={props.icon} alt="Icon call to action" />
-            <NameButton>{props.NameBtn}</NameButton>
+            <NameButton id="NameBtnAddFriend">{props.NameBtn}</NameButton>
         </AddFriendLink>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import Avatare from "../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
@@ -10,6 +10,7 @@ import IconAccept from "../../Assets/Images/Icons/AcceptFR.svg";
 import { parse } from "ipaddr.js";
 import NewMeetup from "../Components/Buttons/NewMeetup";
 import LightBox from "../Components/Main/LightBox";
+import { ScoreLvl } from "../Contexts/ScoreLvl";
 
 const MainProfil = styled.main`
    display: flex;
@@ -123,6 +124,7 @@ const LightBoxBG = styled.div`
 const PublicProfilScreen = (props) => {
     const [inputs, setInputs] = useState({ name: "" });
     const [isFriend, setIsFriend] = useState(true);
+    const { score, setScore } = useContext(ScoreLvl)
     const [meetUpFormLB, setMeetUpFormLB] = useState(false)
     const { name } = inputs;
 
@@ -174,8 +176,8 @@ const PublicProfilScreen = (props) => {
                     <ArticleUserStats>
                         <div>
                             <DivContainerStatInfo>
-                                <SpanStatUserNum>29</SpanStatUserNum>
-                                <SpanStatTitle>Publications</SpanStatTitle>
+                                <SpanStatUserNum>{localStorage.score}</SpanStatUserNum>
+                                <SpanStatTitle>Niveau</SpanStatTitle>
                             </DivContainerStatInfo>
                             <DivContainerStatInfo>
                                 <SpanStatUserNum>123</SpanStatUserNum>

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import AvatarIcon from "../../../../Assets/Images/Icons/Avatar_Icon_Profil.svg"
+import { ScoreLvl } from "../../../Contexts/ScoreLvl";
 
 const ContainerFrom = styled.div`
    display: flex;
@@ -74,6 +75,7 @@ const ButtonSumitForm = styled.button`
 `;
 
 const FormNewMeetUp = (props) => {
+   const { score, setScore } = useContext(ScoreLvl)
 
    const [inputs, setInputs] = useState({
       place: "",
@@ -116,6 +118,7 @@ const FormNewMeetUp = (props) => {
     }
 
     const reload = () => {
+      setScore(score + 25)
       setTimeout(action, 1)
       function action () {
           window.location.reload();
