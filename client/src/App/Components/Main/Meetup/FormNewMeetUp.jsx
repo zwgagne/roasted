@@ -97,8 +97,6 @@ const FormNewMeetUp = (props) => {
       try {
          const params = new URLSearchParams(window.location.search);
          const friendName = params.get("user")
-         console.log(body)
-         console.log(friendName)
          const response = await fetch(`http://localhost:5000/meet/send-meetup-request/${friendName}`, {
             method: "POST", 
             headers: {
@@ -108,7 +106,6 @@ const FormNewMeetUp = (props) => {
             body: JSON.stringify(body)    
         });
         const parseRes = await response.json();
-        console.log(parseRes);
 
       } catch (err) {
         console.error(err.message)

@@ -32,13 +32,15 @@ model posts {
 }
 
 model meetups {
-meetup_id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-user_inviting     users?    @relation(fields: [user_inviting_id], references: [user_id])
-user_inviting_id  String    @db.Uuid
-user_invited      String    @db.Uuid 
-created_at        DateTime  @default(now())
-meetup_date       DateTime  
-meetup_time       DateTime
-meetup_address    String    @db.VarChar(255)
-meetup_place      String    @db.VarChar(255)
+  meetup_id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_inviting       users?    @relation(fields: [user_inviting_id], references: [user_id])
+  user_inviting_id    String    @db.Uuid
+  user_invited        String    @db.Uuid 
+  created_at          DateTime  @default(now())
+  meetup_date         DateTime  
+  meetup_time         DateTime
+  meetup_address      String    @db.VarChar(255)
+  meetup_place        String    @db.VarChar(255)
+  user_invited_name   String?   @db.VarChar(255)
+  user_inviting_name  String?   @db.VarChar(255)
 }

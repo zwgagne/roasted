@@ -63,48 +63,35 @@ const TimerInfo = styled.div`
 
 const PostCardMeetUp = () => {
     
-    const [meetupInfo, setMeetupInfo] = useState()
-    const [sentMeetupInfo, setSentMeetupInfo] = useState()
+    const [meetupsICreated, setMeetupsICreated] = useState()
+    const [meetupsImInvitedTo, setMeetupsImInvitedTo] = useState()
+    const [meetupsMyFriendsCreated, setMeetupsMyFriendsCreated] = useState()
     
     async function getMeetupInfo() {
         try {
-            const response = await fetch("http://localhost:5000/meet/get-meetup-info", {
+            const response = await fetch("http://localhost:5000/meet/get-meetup", {
                 method: "GET",
                 headers: { token: localStorage.token }
             });
             
             const parseRes = await response.json();
-            setMeetupInfo(parseRes.rows);
+            setMeetupsICreated(parseRes.meetupsICreated);
+            setMeetupsImInvitedTo(parseRes.meetupsImInvitedTo);
+            setMeetupsMyFriendsCreated(parseRes.meetupsMyFriendsCreated);
         } catch (err) {
             console.error(err.message)
         }
     }
-
-    async function getSentMeetupInfo() {
-        try {
-            const response = await fetch("http://localhost:5000/meet/get-sent-meetup-info", {
-                method: "GET",
-                headers: { token: localStorage.token }
-            });
-            
-            const parseRes = await response.json();
-            setSentMeetupInfo(parseRes.rows);
-        } catch (err) {
-            console.error(err.message)
-        }
-    }
-
     
     useEffect(() => {
         getMeetupInfo();
-        getSentMeetupInfo();
     }, [])    
 
 
     return (
         <>
             
-            {meetupInfo && meetupInfo.map((meetup) => (
+            {meetupsICreated && meetupsICreated.map((meetup) => (
 
             <ContainerCard key={meetup.meetup_id}>
                 <BgColorCard>
@@ -118,14 +105,13 @@ const PostCardMeetUp = () => {
                     </SectionTop>
                     <SectionBottom>
                         <InfoMeetupPlace DateM={meetup.meetup_time.slice(0, -14)} TimeM={meetup.meetup_time.slice(-13,-8)} CompanyName={meetup.meetup_place} AdressM={meetup.meetup_address} />
-                        <UsersMeetup UserName1="Vous" UserName2={meetup.user_name} />
+                        <UsersMeetup UserName1="Vous" UserName2={meetup.user_invited_name} />
                     </SectionBottom>
-                        <p>Une initiative de : {meetup.user_name}</p>
                 </BgColorCard>
             </ContainerCard>
             ))}
 
-            {sentMeetupInfo && sentMeetupInfo.map((meetup) => (
+            {meetupsImInvitedTo && meetupsImInvitedTo.map((meetup) => (
 
             <ContainerCard key={meetup.meetup_id}>
                 <BgColorCard>
@@ -139,9 +125,28 @@ const PostCardMeetUp = () => {
                     </SectionTop>
                     <SectionBottom>
                         <InfoMeetupPlace DateM={meetup.meetup_time.slice(0, -14)} TimeM={meetup.meetup_time.slice(-13,-8)} CompanyName={meetup.meetup_place} AdressM={meetup.meetup_address} />
-                        <UsersMeetup UserName1="Vous" UserName2={meetup.user_name} />
+                        <UsersMeetup UserName1={meetup.user_inviting_name} UserName2="Vous" />
                     </SectionBottom>
-                        <p>Vous avez envoyé l'invitation</p>
+                </BgColorCard>
+            </ContainerCard>
+            ))}
+
+            {meetupsMyFriendsCreated && meetupsMyFriendsCreated.map((meetup) => (
+
+            <ContainerCard key={meetup.meetup_id}>
+                <BgColorCard>
+                    <SectionTop>
+                        <img src={MeetUpIcon} />
+                        <TimerInfo>
+                            <TitlePost>Meetup</TitlePost>
+                            <img src={ClockIcon} />
+                            <Timer countdownTimestampMs={new Date(meetup.meetup_time).getTime()} />
+                        </TimerInfo>
+                    </SectionTop>
+                    <SectionBottom>
+                        <InfoMeetupPlace DateM={meetup.meetup_time.slice(0, -14)} TimeM={meetup.meetup_time.slice(-13,-8)} CompanyName={meetup.meetup_place} AdressM={meetup.meetup_address} />
+                        <UsersMeetup UserName1={meetup.user_inviting_name} UserName2={meetup.user_invited_name} />
+                    </SectionBottom>
                 </BgColorCard>
             </ContainerCard>
             ))}
