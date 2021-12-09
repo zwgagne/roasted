@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import Avatare from "../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
@@ -10,6 +10,7 @@ import IconAccept from "../../Assets/Images/Icons/AcceptFR.svg";
 import { parse } from "ipaddr.js";
 import NewMeetup from "../Components/Buttons/NewMeetup";
 import LightBox from "../Components/Main/LightBox";
+import { ScoreLvl } from "../Contexts/ScoreLvl";
 
 const MainProfil = styled.main`
    display: flex;
@@ -120,9 +121,14 @@ const LightBoxBG = styled.div`
    height: 100%;
 `;
 
+const SpanPts = styled.span`
+   font-size: 14px;
+`;
+
 const PublicProfilScreen = (props) => {
     const [inputs, setInputs] = useState({ name: "" });
     const [isFriend, setIsFriend] = useState(true);
+    const { score, setScore } = useContext(ScoreLvl)
     const [meetUpFormLB, setMeetUpFormLB] = useState(false)
     const { name } = inputs;
 
@@ -150,6 +156,30 @@ const PublicProfilScreen = (props) => {
         getPublicUserInfo();
     }, [])
 
+    const Grade = () => {
+        let pts = 40 // Fetch le score du User de la DB ICI
+        if (pts >= 0 && pts <= 5) {
+            return (
+                <>Débutant</>
+            )
+        }
+        if (pts >= 6 && pts <= 25) {
+            return (
+                <>Apprenti</>
+            )
+        }
+        if (pts >= 26 && pts <= 50) {
+            return (
+                <>Connaisseur</>
+            )
+        }
+        if (pts >= 51 ) {
+            return (
+                <>Maître torréfacteur</>
+            )
+        }
+    }
+
 
 
     return (
@@ -174,8 +204,8 @@ const PublicProfilScreen = (props) => {
                     <ArticleUserStats>
                         <div>
                             <DivContainerStatInfo>
-                                <SpanStatUserNum>29</SpanStatUserNum>
-                                <SpanStatTitle>Publications</SpanStatTitle>
+                                <SpanStatUserNum>{localStorage.score} <SpanPts>pts</SpanPts></SpanStatUserNum>
+                                <SpanStatTitle>{Grade()}</SpanStatTitle>
                             </DivContainerStatInfo>
                             <DivContainerStatInfo>
                                 <SpanStatUserNum>123</SpanStatUserNum>
