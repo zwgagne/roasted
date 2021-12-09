@@ -121,6 +121,10 @@ const LightBoxBG = styled.div`
    height: 100%;
 `;
 
+const SpanPts = styled.span`
+   font-size: 14px;
+`;
+
 const PublicProfilScreen = (props) => {
     const [inputs, setInputs] = useState({ name: "" });
     const [isFriend, setIsFriend] = useState(true);
@@ -152,6 +156,30 @@ const PublicProfilScreen = (props) => {
         getPublicUserInfo();
     }, [])
 
+    const Grade = () => {
+        let pts = 40 // Fetch le score du User de la DB ICI
+        if (pts >= 0 && pts <= 5) {
+            return (
+                <>Débutant</>
+            )
+        }
+        if (pts >= 6 && pts <= 25) {
+            return (
+                <>Apprenti</>
+            )
+        }
+        if (pts >= 26 && pts <= 50) {
+            return (
+                <>Connaisseur</>
+            )
+        }
+        if (pts >= 51 ) {
+            return (
+                <>Maître torréfacteur</>
+            )
+        }
+    }
+
 
 
     return (
@@ -176,8 +204,8 @@ const PublicProfilScreen = (props) => {
                     <ArticleUserStats>
                         <div>
                             <DivContainerStatInfo>
-                                <SpanStatUserNum>{localStorage.score}</SpanStatUserNum>
-                                <SpanStatTitle>Niveau</SpanStatTitle>
+                                <SpanStatUserNum>{localStorage.score} <SpanPts>pts</SpanPts></SpanStatUserNum>
+                                <SpanStatTitle>{Grade()}</SpanStatTitle>
                             </DivContainerStatInfo>
                             <DivContainerStatInfo>
                                 <SpanStatUserNum>123</SpanStatUserNum>

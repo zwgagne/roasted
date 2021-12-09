@@ -74,10 +74,13 @@ const ArticleUserStats = styled.div`
 `;
 
 const SpanStatUserNum = styled.div`
-   font-size: 44px;
+   font-size: 40px;
    font-weight: bold;
    margin-left: 20px;
    margin-right: 17px;
+`;
+const SpanPts = styled.span`
+   font-size: 14px;
 `;
 const SpanStatTitle = styled.div`
    font-size: 16px;
@@ -147,6 +150,30 @@ const ProfilScreen = () => {
         }
     }
 
+    const Grade = () => {
+        let pts = 51 // Fetch le score du User de la DB ICI
+        if (pts >= 0 && pts <= 5) {
+            return (
+                <>Débutant</>
+            )
+        }
+        if (pts >= 6 && pts <= 25) {
+            return (
+                <>Apprenti</>
+            )
+        }
+        if (pts >= 26 && pts <= 50) {
+            return (
+                <>Connaisseur</>
+            )
+        }
+        if (pts >= 51 ) {
+            return (
+                <>Maître torréfacteur</>
+            )
+        }
+    }
+
     return (
         <>
             <NavHeader />
@@ -166,8 +193,8 @@ const ProfilScreen = () => {
                     <ArticleUserStats>
                         <div>
                             <DivContainerStatInfo>
-                                <SpanStatUserNum>29</SpanStatUserNum>
-                                <SpanStatTitle>Publications</SpanStatTitle>
+                                <SpanStatUserNum>{localStorage.score} <SpanPts>pts</SpanPts></SpanStatUserNum>
+                                <SpanStatTitle>{Grade()}</SpanStatTitle>
                             </DivContainerStatInfo>
                             <DivContainerStatInfo>
                                 <SpanStatUserNum>123</SpanStatUserNum>
