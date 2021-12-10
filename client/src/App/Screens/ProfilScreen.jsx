@@ -111,6 +111,7 @@ const ProfilScreen = () => {
     const [Edit, SetEdit] = useState(false)
     const [inputs, setInputs] = useState({ name: "" })
     const [posts, setPosts] = useState([]);
+    const [points, setPoints] = useState([]);
     const { name } = inputs;
 
     async function getUserInfo() {
@@ -125,6 +126,7 @@ const ProfilScreen = () => {
                 email: parseRes.user_email,
                 name: parseRes.user_name
             });
+            setPoints(parseRes.user_points)
 
         } catch (err) {
             console.error(err.message)
@@ -151,7 +153,7 @@ const ProfilScreen = () => {
     }
 
     const Grade = () => {
-        let pts = 51 // Fetch le score du User de la DB ICI
+        let pts = points
         if (pts >= 0 && pts <= 5) {
             return (
                 <>Débutant</>
@@ -172,6 +174,7 @@ const ProfilScreen = () => {
                 <>Maître torréfacteur</>
             )
         }
+        console.log(pts)
     }
 
     return (
@@ -193,7 +196,7 @@ const ProfilScreen = () => {
                     <ArticleUserStats>
                         <div>
                             <DivContainerStatInfo>
-                                <SpanStatUserNum>{localStorage.score} <SpanPts>pts</SpanPts></SpanStatUserNum>
+                                <SpanStatUserNum>{points} <SpanPts>pts</SpanPts></SpanStatUserNum>
                                 <SpanStatTitle>{Grade()}</SpanStatTitle>
                             </DivContainerStatInfo>
                             <DivContainerStatInfo>

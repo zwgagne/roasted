@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
-import { ScoreLvl } from "../../Contexts/ScoreLvl";
 
 const AddFriendLink = styled.button`
    display: flex;
@@ -21,18 +20,13 @@ const NameButton = styled.span`
 `
 
 const BtnAddFriend = (props) => {
-    const { score, setScore } = useContext(ScoreLvl)
 
     const ExeFunction = (e) => {
         UpdateScore();
         requestFriend(e)
     }
     const UpdateScore = () => {
-        if (document.getElementById("btnFEtat").disabled === false) {
-            setScore(score + 2)
-            document.getElementById("btnFEtat").disabled = true;
-            document.getElementById("NameBtnAddFriend").innerHTML = "Envoyé!"
-        }
+        document.getElementById("NameBtnAddFriend").innerHTML = "Envoyé!"        
     }
 
     async function requestFriend(e) {
@@ -45,12 +39,10 @@ const BtnAddFriend = (props) => {
                 token: localStorage.token,
                 "Content-Type": "application/json"
             },
-    });
-    } catch (err) {
-        console.log(err.message)
-    }
-
-
+        });
+        } catch (err) {
+            console.log(err.message)
+        }
     }
 
     return (

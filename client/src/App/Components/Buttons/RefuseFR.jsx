@@ -34,7 +34,7 @@ const BtnRefuseFR = (props) => {
         e.preventDefault();
         try {
             const friendName = props.afr;
-            const response = await fetch(`http://localhost:5000/friends/decline/${friendName}`, {
+            await fetch(`http://localhost:5000/friends/decline/${friendName}`, {
                 method: "GET",
                 headers: { token: localStorage.token }
             });

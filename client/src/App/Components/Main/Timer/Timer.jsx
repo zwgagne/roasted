@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Countdown from 'react-countdown';
 import { getRemainingTimeUntilMsTimestamp } from "./CountdownTimer";
 import TimeOut from "./TimeOut";
 

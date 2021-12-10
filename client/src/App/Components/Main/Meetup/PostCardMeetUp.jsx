@@ -96,10 +96,10 @@ const PostCardMeetUp = () => {
             <ContainerCard key={meetup.meetup_id}>
                 <BgColorCard>
                     <SectionTop>
-                        <img src={MeetUpIcon} />
+                        <img alt="Meet icon" src={MeetUpIcon} />
                         <TimerInfo>
                             <TitlePost>Meetup</TitlePost>
-                            <img src={ClockIcon} />
+                            <img alt="Clock icon" src={ClockIcon} />
                             <Timer countdownTimestampMs={new Date(meetup.meetup_time).getTime()} />
                         </TimerInfo>
                     </SectionTop>
@@ -116,10 +116,10 @@ const PostCardMeetUp = () => {
             <ContainerCard key={meetup.meetup_id}>
                 <BgColorCard>
                     <SectionTop>
-                        <img src={MeetUpIcon} />
+                        <img alt="Meet icon" src={MeetUpIcon} />
                         <TimerInfo>
                             <TitlePost>Meetup</TitlePost>
-                            <img src={ClockIcon} />
+                            <img alt="Clock icon" src={ClockIcon} />
                             <Timer countdownTimestampMs={new Date(meetup.meetup_time).getTime()} />
                         </TimerInfo>
                     </SectionTop>
@@ -136,10 +136,10 @@ const PostCardMeetUp = () => {
             <ContainerCard key={meetup.meetup_id}>
                 <BgColorCard>
                     <SectionTop>
-                        <img src={MeetUpIcon} />
+                        <img alt="Meet icon" src={MeetUpIcon} />
                         <TimerInfo>
                             <TitlePost>Meetup</TitlePost>
-                            <img src={ClockIcon} />
+                            <img alt="Clock icon" src={ClockIcon} />
                             <Timer countdownTimestampMs={new Date(meetup.meetup_time).getTime()} />
                         </TimerInfo>
                     </SectionTop>

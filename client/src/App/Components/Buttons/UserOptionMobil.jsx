@@ -70,10 +70,6 @@ const UserOptionMobil = () => {
     const [friendsNames, setFriendsNames] = useState([]);
     const [pendingFriends, setPendingFriends] = useState([]);
     const [open, setOpen] = useState(false);
-    useEffect(() => {
-        getAllFriends();
-        getPendingFriendRequests();
-    }, [])
     async function getAllFriends() {
         try {
             const response = await fetch(`http://localhost:5000/friends/get-all-friends`, {
@@ -106,6 +102,12 @@ const UserOptionMobil = () => {
             console.log(err.message)
         }
     }
+
+    useEffect(() => {
+        getAllFriends();
+        getPendingFriendRequests();
+    }, [])
+
     return (
         <>
             <UserSection>
@@ -139,7 +141,7 @@ function UserFriendMobil(props) {
 }
 
 function DropdownAllFriend(props) {
-    const [haveNotif, setHaveNotif] = useState(true)
+    const haveNotif = true
     const reload = () => {
         setTimeout(action, 1)
         function action () {

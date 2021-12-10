@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-//import { ReactComponent as UserOptionIcon } from "../../../Assets/Images/Icons/UserOption.svg"
 import { ReactComponent as Avatare } from "../../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
 import BtnAcceptFR from "./AcceptFR";
 import BtnRefuseFR from "./RefuseFR";

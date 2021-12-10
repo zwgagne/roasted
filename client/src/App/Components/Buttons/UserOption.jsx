@@ -141,7 +141,7 @@ function UserFriend(props) {
 function DropdownAllFriend(props) {
 
 
-    const [haveNotif, setHaveNotif] = useState(true)
+    const haveNotif= true
     const reload = () => {
         setTimeout(action, 1)
         function action () {

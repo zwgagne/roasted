@@ -1,16 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import NavHeader from "../Components/Header/NavHeader";
 import styled from "styled-components";
 import Avatare from "../../Assets/Images/Icons/Avatar_Icon_Profil.svg";
-import PostCard from "../Components/Main/PostCard";
 import BtnAddFriend from "../Components/Buttons/AddFriend";
 import { ReactComponent as Ecommercial } from "../../Assets/Images/Icons/Ecommercial.svg";
 import AddFriendIcon from "../../Assets/Images/Icons/Add_Friend_Icon.svg";
 import IconAccept from "../../Assets/Images/Icons/AcceptFR.svg";
-import { parse } from "ipaddr.js";
 import NewMeetup from "../Components/Buttons/NewMeetup";
 import LightBox from "../Components/Main/LightBox";
-import { ScoreLvl } from "../Contexts/ScoreLvl";
 
 const MainProfil = styled.main`
    display: flex;
@@ -128,7 +125,7 @@ const SpanPts = styled.span`
 const PublicProfilScreen = (props) => {
     const [inputs, setInputs] = useState({ name: "" });
     const [isFriend, setIsFriend] = useState(true);
-    const { score, setScore } = useContext(ScoreLvl)
+    const [points, setPoints] = useState([]);
     const [meetUpFormLB, setMeetUpFormLB] = useState(false)
     const { name } = inputs;
 
@@ -146,6 +143,7 @@ const PublicProfilScreen = (props) => {
                 name: parseRes.infos
             });
             setIsFriend(parseRes.isFriend)
+            setPoints(parseRes.points)
 
         } catch (err) {
             console.error(err.message)
@@ -157,7 +155,7 @@ const PublicProfilScreen = (props) => {
     }, [])
 
     const Grade = () => {
-        let pts = 40 // Fetch le score du User de la DB ICI
+        let pts = points
         if (pts >= 0 && pts <= 5) {
             return (
                 <>Débutant</>
@@ -204,7 +202,7 @@ const PublicProfilScreen = (props) => {
                     <ArticleUserStats>
                         <div>
                             <DivContainerStatInfo>
-                                <SpanStatUserNum>{localStorage.score} <SpanPts>pts</SpanPts></SpanStatUserNum>
+                                <SpanStatUserNum>{points} <SpanPts>pts</SpanPts></SpanStatUserNum>
                                 <SpanStatTitle>{Grade()}</SpanStatTitle>
                             </DivContainerStatInfo>
                             <DivContainerStatInfo>

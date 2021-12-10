@@ -5,7 +5,6 @@ const validation = require("../middleware/validation");
 
 
 router.get("/", authorization, profileController.profile)
-router.get("/user/:id", profileController.getUserProfile)
 router.get("/edit", authorization, profileController.getEditProfilePage)
 router.get("/public/:userName", authorization, profileController.getPublicProfile)
 router.post("/edit", authorization, validation, profileController.saveChanges)
