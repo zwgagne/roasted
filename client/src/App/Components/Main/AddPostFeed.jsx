@@ -118,7 +118,7 @@ const AddPostFeed = () => {
                     <BtnCloseLB onClick={() => setShowLB(false)} >X</BtnCloseLB>
                 </LBFirstLing>
                 <FormLB onSubmit={onSubmitForm}>
-                    <CommentsText id="postContent" name="content" onChange={e => onChange(e)} value={content} placeholder="| Que voulez-vous partager?" />
+                    <CommentsText autoFocus id="postContent" name="content" onChange={e => onChange(e)} value={content} placeholder="| Que voulez-vous partager?"  />
                     <ContainerBtnShareLB>
                         <BtnShareLB onClick={() => reload()} type="submit" >Publier</BtnShareLB>
                     </ContainerBtnShareLB>

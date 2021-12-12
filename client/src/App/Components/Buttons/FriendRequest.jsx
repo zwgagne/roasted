@@ -69,7 +69,7 @@ const FriendRequest = (props) => {
         <>
             <TitleFriends>Buddies request</TitleFriends>
             {props.pendingFriends.map((pending) => (
-                    <DropdownUser linkTo="/public" Icon1={<Avatare />} UserNameFriend={pending.user_name} value={pending.user_name} key={pending.user_id} />
+                    <DropdownUser linkTo="/" Icon1={<Avatare />} UserNameFriend={pending.user_name} value={pending.user_name} key={pending.user_id} />
                 ))}
         </>
     )

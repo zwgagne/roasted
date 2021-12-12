@@ -27,6 +27,7 @@ const PInfoAction = styled.p`
    font-weight: bold;
    font-size: 16px;
    margin-top: 0px;
+   width: 100%;
 `;
 
 const LabelForm = styled.label`
@@ -134,7 +135,7 @@ const FormNewMeetUp = (props) => {
                     </ContainerUserInvite>
                     <form onSubmit={onSubmitForm}>
                         <LabelForm htmlFor="placeMU">Lieu de rencontre</LabelForm>
-                        <InputForm onChange={e => onChange(e)} type="text" id="placeMU" name="place" value={place} placeholder="Nom de l'etablissement" />
+                        <InputForm autoFocus onChange={e => onChange(e)} type="text" id="placeMU" name="place" value={place} placeholder="Nom de l'etablissement" />
 
                         <LabelForm htmlFor="adressMU">Adresse</LabelForm>
                         <InputForm onChange={e => onChange(e)} type="text" id="adressMU" name="address" value={address} placeholder="Adresse et Ville" />
